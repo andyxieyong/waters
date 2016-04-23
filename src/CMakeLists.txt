@@ -26,6 +26,10 @@ elseif(WIN32)
 	elseif(EXISTS "${metasim_DIR}/Release/metasim.lib")
 		set(metasim_LIBRARY "${metasim_DIR}/Release/metasim.lib")
 	endif()
+	
+	set(metasim_LIBRARY "${metasim_DIR}/metasim.lib")
+	
+	#message(FATAL_ERROR ${metasim_LIBRARY})
 endif()
 
 # Create a library called "rtlib" which includes the source files.
