@@ -17,6 +17,8 @@ int main()
 {
     try {
 
+        ///ciao balsini
+
         SIMUL.dbg.enable("All");
         SIMUL.dbg.setStream("debug.txt");
         // set the trace file. This can be visualized by the
