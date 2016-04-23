@@ -10,6 +10,8 @@
 #include <rttask.hpp>
 #include <instr.hpp>
 
+#include "tinyxml/tinyxml2.h"
+
 using namespace MetaSim;
 using namespace RTSim;
 
