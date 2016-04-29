@@ -49,3 +49,23 @@ void Runnable2::setDistribParams(int l, int u, string &prp, int m)
     mean = m;
 }
 
+void Runnable2::setTask(Task2 *t)
+{
+    task = t;
+}
+
+void Runnable2::setPosInTask(int i)
+{
+    task_i = i;
+}
+
+Task2 *Runnable2::getTask()
+{
+    return task;
+}
+
+int Runnable2::getPosInTask()
+{
+    return task_i;
+}
+

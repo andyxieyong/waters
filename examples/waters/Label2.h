@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 using namespace std;
+
+class Runnable2;
 
 class Label2
 {
@@ -20,9 +23,24 @@ public:
     void setid(int id);
     bool isConstant();
 
+    void setBitSize(int bs);
+    int getBitSize();
+
+    void setIsConstant(bool ic);
+    bool getIsConstant();
+
+
+
+    vector<Runnable2 *> runnablesRead_list;
+    vector<Runnable2 *> runnablesWrite_list;
+
+
 private:
     int id;
     bool isconstant;
+    int size_bit;
+
+
 
 
 };

@@ -41,7 +41,7 @@ public:
     int getMultipleActivationTaskLimit();
 
     void setRunnablesListSize(int size);
-    void insertRunnable(Runnable2 *r);
+    int insertRunnable(Runnable2 *r);
 
 private:
 

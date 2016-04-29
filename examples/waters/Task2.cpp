@@ -97,8 +97,9 @@ void Task2::setRunnablesListSize(int size)
     runnables_list.reserve(size);
 }
 
-void Task2::insertRunnable(Runnable2 *r)
+int Task2::insertRunnable(Runnable2 *r)
 {
     runnables_list.push_back(r);
+    return runnables_list.size();
 }
 

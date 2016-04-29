@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+
 #include "Label2.h"
 
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
 
 enum Label_Access {read, write};
 
-
+class Task2;
 
 class Runnable2
 {
@@ -30,6 +31,11 @@ public:
 
     void setDistribParams(int l, int u, string &prp, int m);
 
+    void setTask(Task2 *t);
+    void setPosInTask(int i);
+    Task2 *getTask();
+    int getPosInTask();
+
 private:
     string name;
     vector<int> labelsRead_list;
@@ -42,7 +48,12 @@ private:
     string pRemainPromille;
     int mean;
 
+    Task2 *task;
+    int task_i;
+
 
 
 };
+
+
 

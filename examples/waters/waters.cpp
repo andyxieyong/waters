@@ -32,7 +32,9 @@ using namespace tinyxml2;
 #endif
 
 
- std::vector<Task> taskList;
+ std::vector<Task2 *> taskList;
+ std::vector<Runnable2 *> runnableList;
+ std::vector<Label2 *> labelList;
 
 
 int countSiblingElements(XMLElement *pElement, char *elem_name)
@@ -89,10 +91,51 @@ void test_tinyXML(void)
     XMLElement *pRunnableElement_first = pElement->FirstChildElement("runnables");
     XMLElement *pLabelElement_first = pElement->FirstChildElement("labels");
 
+
+
+
+    // read all labels
+
     int g_label_count = countSiblingElements(pLabelElement_first, "labels");
     printf("g_label_count = %d\n", g_label_count);
+    labelList.reserve(g_label_count);
+
+    XMLElement *pLabelElement = pLabelElement_first;
+    while (pLabelElement != nullptr)
+    {
+        const char *label_name = pLabelElement->Attribute("name");
+        //TODO check sul nome per vedere se e' nel formato Label_XXX dove XXX e' un numero
+        //altrimenti devo fare con <map>
+        int label_id = atoi(NthToken(label_name, "_", 1).c_str());
+        const char *attribute_constant = pLabelElement->Attribute("constant");
+
+        int label_size_bit = atoi(pLabelElement->FirstChildElement("size")->Attribute("numberBits"));
+        bool label_isconstant;
+
+        if(attribute_constant != nullptr && !strcmp(attribute_constant, "true"))
+         label_isconstant = true;
+        else
+         label_isconstant = false;
 
 
+        Label2 *label = new Label2();
+        label->setid(label_id);
+        label->setBitSize(label_size_bit);
+        label->setIsConstant(label_isconstant);
+
+
+        labelList.push_back(label);
+        int lpos = labelList.size()-1;
+
+        if(lpos != label_id)
+        {
+         //should never happen
+         printf("lpos != label_id , quit\n");
+         return;
+        }
+
+        pLabelElement = pLabelElement->NextSiblingElement("labels");
+    }
 
 
 
@@ -220,16 +263,18 @@ void test_tinyXML(void)
                             string access = string(prunnableItemsElement->Attribute("access"));
                             int label_id = atoi(NthToken(label_name, "_", 1).c_str());
 
+                            //runnable->label
+                            //label->runnable (in ordine[?])
                             if(access == "read")
+                            {
                                 runnable->insertReadLabel(label_id);
+                                labelList[label_id]->runnablesRead_list.push_back(runnable);
+                            }
                             else
+                            {
                                 runnable->insertWriteLabel(label_id);
-
-                            //create label NO, le label vengono create tutte all'inizio e messe in una lista
-                            //add label to runbable
-                            //TODO add label to label list
-                            //runnable->label (in ordine)
-                            //TODO label->runnable (in ordine)
+                                labelList[label_id]->runnablesWrite_list.push_back(runnable);
+                            }
 
                             printf("\t%s %d %s\n", label_name.c_str(),label_id, access.c_str());
                         }
@@ -256,11 +301,14 @@ void test_tinyXML(void)
                         }
 
                         //aggiungi runnable appena creato
-                        task->insertRunnable(runnable);
+                        int r_pos = task->insertRunnable(runnable);
+
+                        runnable->setTask(task);
+                        runnable->setPosInTask(r_pos);
+                        runnableList.push_back(runnable);
+
                         prunnableItemsElement = prunnableItemsElement->NextSiblingElement("runnableItems");
                     }
-
-
 
                     name_found = true;
                     //ottimizzazione valida solo per questo modello xml XXX
@@ -279,10 +327,7 @@ void test_tinyXML(void)
             }
 
 
-
-
-
-
+            taskList.push_back(task);
             pCallsElement = pCallsElement->NextSiblingElement();
         }
 

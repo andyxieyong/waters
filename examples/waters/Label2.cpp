@@ -43,3 +43,26 @@ bool Label2::isConstant()
 {
     return isconstant;
 }
+
+void Label2::setBitSize(int bs)
+{
+    size_bit = bs;
+}
+
+int Label2::getBitSize()
+{
+    return size_bit;
+}
+
+void Label2::setIsConstant(bool ic)
+{
+    isconstant = ic;
+}
+
+
+bool Label2::getIsConstant()
+{
+    return isconstant;
+}
+
+
