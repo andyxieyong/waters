@@ -174,6 +174,10 @@ namespace RTSim {
         
     }
 
+#ifdef WIN32
+#define or ||
+#endif
+
     void Task::block() 
     {
 	// check that the task is not idle and is not already blocked
@@ -296,6 +300,9 @@ namespace RTSim {
         reactivate();
     }
 
+#ifdef WIN32
+#define not !
+#endif
     void Task::onEndInstance(Event *e)
     {
         DBGENTER(_TASK_DBG_LEV);
