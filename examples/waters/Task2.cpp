@@ -35,6 +35,7 @@ int Task2::getPriority()
 void Task2::setPeriod(int p)
 {
     period = p;
+    maxInterArrivalTime = -1;
     printf("Task2->setPeriod = %dus\n", p);
 }
 
@@ -102,4 +103,13 @@ int Task2::insertRunnable(Runnable2 *r)
     runnables_list.push_back(r);
     return runnables_list.size();
 }
+
+bool Task2::isPeriodic()
+{
+    if (maxInterArrivalTime == -1)
+        return true;
+    else
+        return false;
+}
+
 
