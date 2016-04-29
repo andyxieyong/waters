@@ -1,5 +1,6 @@
 #include "builder.h"
 
+#include <randomvar.hpp>
 
 namespace RTSim {
 
@@ -41,7 +42,7 @@ namespace RTSim {
                             unsigned int cpus)
   {
     for (unsigned int c=0; c<cpus; c++) {
-      PSTrace * t = new PSTrace("trace_" + to_string(c) + ".txt");
+      PSTrace * t = new PSTrace("trace_" + to_string(c) + ".pst");
       FPScheduler * s = new FPScheduler();
       RTKernel * k = new RTKernel(s);
 
@@ -65,10 +66,10 @@ namespace RTSim {
         t = new PeriodicTask(period, period, 0, tasks.at(i)->getName());
       else
         t = new Task(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),
-                                    tasks.at(i)->getMaxInterArrivalTime(),
-                                    period,
-                                    0,
-                                    tasks.at(i)->getName());
+                                    tasks.at(i)->getMaxInterArrivalTime()),
+                     period,
+                     0,
+                     tasks.at(i)->getName());
 
       t->insertCode("fixed(10);");
 

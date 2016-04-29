@@ -387,11 +387,11 @@ int main()
     test_tinyXML();
 
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run(500);
+    SIMUL.run(500 * 1000);
 
     //system("pause");
     return 1;
-
+/*
     try {
 
         ///ciao balsini
@@ -451,8 +451,9 @@ int main()
   
         cout << "Ready to run!" << endl;
         // run the simulation for 500 units of time
-        SIMUL.run(500);
+        SIMUL.run(500 * 1000);
     } catch (BaseExc &e) {
         cout << e.what() << endl;
     }
+    */
 }
