@@ -43,6 +43,8 @@ public:
     void setRunnablesListSize(int size);
     int insertRunnable(Runnable2 *r);
 
+    bool isPeriodic();
+
 private:
 
     string name;

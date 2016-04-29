@@ -343,7 +343,7 @@ void test_tinyXML(void)
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
     }
 
-
+    //CPU_CORE->TASK mapping parsing
     XMLElement *pmappingModelElement = pRoot->FirstChildElement("mappingModel");
     if (pmappingModelElement == nullptr)
     {
