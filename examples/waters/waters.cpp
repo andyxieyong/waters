@@ -86,13 +86,9 @@ void test_tinyXML(void)
         return;
     }
 
-
     XMLElement *pTaskElement = pElement->FirstChildElement("tasks");
     XMLElement *pRunnableElement_first = pElement->FirstChildElement("runnables");
     XMLElement *pLabelElement_first = pElement->FirstChildElement("labels");
-
-
-
 
     // read all labels
 
@@ -129,9 +125,9 @@ void test_tinyXML(void)
 
         if(lpos != label_id)
         {
-         //should never happen
-         printf("lpos != label_id , quit\n");
-         return;
+            //should never happen
+            printf("lpos != label_id , quit\n");
+            return;
         }
 
         pLabelElement = pLabelElement->NextSiblingElement("labels");
@@ -246,13 +242,11 @@ void test_tinyXML(void)
                     //scorri tutti i runnableItem (gli accessi alle label)
                     XMLElement *prunnableItemsElement = pRunnableElement->FirstChildElement();
 
-
                     int runnableItemsRead_count = countSiblingElements(prunnableItemsElement, nullptr, "access", "read");
                     int runnableItemsWrite_count = countSiblingElements(prunnableItemsElement, nullptr, "access", "write");
 
                     runnable->setLabelsReadListSize(runnableItemsRead_count);
                     runnable->setLabelsWriteListSize(runnableItemsWrite_count);
-
 
                     while (prunnableItemsElement != nullptr)
                     {
@@ -331,18 +325,27 @@ void test_tinyXML(void)
             pCallsElement = pCallsElement->NextSiblingElement();
         }
 
-
-
-
-
-
-
-
-
-
-
         printf("\n");
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
+    }
+
+
+    XMLElement *pmappingModelElement = pRoot->FirstChildElement("mappingModel");
+    if (pmappingModelElement == nullptr)
+    {
+        printf("mappingModel\n");
+        return;
+    }
+
+    XMLElement *pprocessAllocationElement_first = pmappingModelElement->FirstChildElement("processAllocation");
+    XMLElement *pprocessAllocationElement = pprocessAllocationElement_first;
+
+
+    while(pprocessAllocationElement != nullptr)
+    {
+
+
+        pprocessAllocationElement = pprocessAllocationElement->NextSiblingElement("processAllocation");
     }
 
 
