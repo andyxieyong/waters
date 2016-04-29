@@ -45,6 +45,8 @@ public:
 
     bool isPeriodic();
 
+    vector<Runnable2 *> runnables_list;
+
 private:
 
     string name;
@@ -65,6 +67,6 @@ private:
     Task_Preemption preemption;
 
 
-    vector<Runnable2 *> runnables_list;
+
 
 };

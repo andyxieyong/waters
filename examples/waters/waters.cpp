@@ -300,11 +300,9 @@ void test_tinyXML(void)
                             string pRemainPromille = string(pdeviationElement->FirstChildElement("distribution")->Attribute("pRemainPromille"));
                             int mean = pdeviationElement->FirstChildElement("distribution")->FirstChildElement()->IntAttribute("value");
 
-
                             runnable->setDistribParams(lowerBound, upperBound, pRemainPromille, mean);
 
                             printf("\t lowerBound=%d upperBound=%d pRemainPromille=%s mean=%d\n", lowerBound, upperBound, pRemainPromille.c_str(), mean);
-
                         }
                         prunnableItemsElement = prunnableItemsElement->NextSiblingElement("runnableItems");
                     }
@@ -340,7 +338,9 @@ void test_tinyXML(void)
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
     }
 
+    //
     //CPU_CORE->TASK mapping parsing
+    //
     XMLElement *pmappingModelElement = pRoot->FirstChildElement("mappingModel");
     if (pmappingModelElement == nullptr)
     {

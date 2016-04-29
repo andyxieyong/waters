@@ -30,6 +30,11 @@ public:
     bool getIsConstant();
 
 
+    int read();
+    int write();
+
+    void enableTimestamp(bool en);
+
 
     vector<Runnable2 *> runnablesRead_list;
     vector<Runnable2 *> runnablesWrite_list;
@@ -39,6 +44,8 @@ private:
     int id;
     bool isconstant;
     int size_bit;
+
+    bool enabled;
 
 
 
