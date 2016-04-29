@@ -303,15 +303,6 @@ void test_tinyXML(void)
                 }
 
                 g_runnables_count++;
-
-                //aggiungi runnable appena creato
-                int r_pos = task->insertRunnable(runnable);
-
-                runnable->setTask(task);
-                runnable->setPosInTask(r_pos);
-                runnableList.push_back(runnable);
-
-
                 pRunnableElement = pRunnableElement->NextSiblingElement("runnables");
             }
             printf("g_runnables_count = %d\n", g_runnables_count);
@@ -320,6 +311,13 @@ void test_tinyXML(void)
                 printf("runnable_name %s NOT  found! quit.\n", runnable_name.c_str());
                 return;
             }
+
+            //aggiungi runnable appena creato
+            int r_pos = task->insertRunnable(runnable);
+
+            runnable->setTask(task);
+            runnable->setPosInTask(r_pos);
+            runnableList.push_back(runnable);
 
             pCallsElement = pCallsElement->NextSiblingElement();
         }
