@@ -6,12 +6,10 @@ namespace RTSim {
   using namespace std;
   using namespace MetaSim;
 
-  Builder::Builder(const std::vector<Task2 *> &tasks,
-                   const std::vector<Runnable2 *> &runnables,
-                   const std::vector<Label2 *> &labels)
+  Builder::Builder(const std::vector<Task2 *> cores[],
+                   unsigned int cpu_n)
   {
-    buildKernels();
-    buildTasks(/*tasks, labels*/);
+    buildKernels(cores, cpu_n);
   }
 
   Builder::~Builder()
@@ -39,9 +37,10 @@ namespace RTSim {
   }
 
 
-  int Builder::buildKernels()
+  int Builder::buildKernels(const std::vector<Task2 *> cores[],
+                            unsigned int cpus)
   {
-    for (unsigned int c=0; c<4; c++) {
+    for (unsigned int c=0; c<cpus; c++) {
       PSTrace * t = new PSTrace("trace_" + to_string(c) + ".txt");
       FPScheduler * s = new FPScheduler();
       RTKernel * k = new RTKernel(s);
@@ -49,23 +48,33 @@ namespace RTSim {
       _traces.push_back(t);
       _schedulers.push_back(s);
       _kernels.push_back(k);
+
+      buildTasks(cores[c], c);
     }
   }
 
 
-  int Builder::buildTasks()
+  int Builder::buildTasks(const std::vector<Task2 *> &tasks,
+                          unsigned int c)
   {
-    for (unsigned int c=0; c<4; c++) {
-      for (unsigned int i=0; i<3; i++) {
-        Tick period(int(100 + 10 * i));
-        PeriodicTask * t = new PeriodicTask(period, period, 0, "Task_" + to_string(c) + to_string(i));
+    for (unsigned int i=0; i<tasks.size(); i++) {
+      Tick period(tasks.at(i)->getPeriod());
+      Task * t;
 
-        t->insertCode("fixed(10);");
+      if (tasks.at(i)->isPeriodic())
+        t = new PeriodicTask(period, period, 0, tasks.at(i)->getName());
+      else
+        t = new Task(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),
+                                    tasks.at(i)->getMaxInterArrivalTime(),
+                                    period,
+                                    0,
+                                    tasks.at(i)->getName());
 
-        _kernels.at(c)->addTask(*t, to_string(i));
+      t->insertCode("fixed(10);");
 
-        _traces.at(c)->attachToTask(t);
-      }
+      _kernels.at(c)->addTask(*t, to_string(tasks.at(i)->getPriority()));
+
+      _traces.at(c)->attachToTask(t);
     }
   }
 }

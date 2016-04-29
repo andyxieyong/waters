@@ -24,6 +24,7 @@
 #include <vector>
 #include <map>
 
+const unsigned int CPU_NUM = 4;
 
 using namespace MetaSim;
 using namespace RTSim;
@@ -39,7 +40,7 @@ using namespace std;
 
 //////////////////////////////////////////////////////
 
-vector<Task2 *> CPU_CORES[4];
+vector<Task2 *> CPU_CORES[CPU_NUM];
 
 
 vector<Task2 *> taskList;
@@ -385,7 +386,7 @@ int main()
 
     test_tinyXML();
 
-    Builder b(taskList, runnableList, labelList);
+    Builder b(CPU_CORES, CPU_NUM);
     SIMUL.run(500);
 
     //system("pause");

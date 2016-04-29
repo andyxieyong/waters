@@ -23,13 +23,13 @@ namespace RTSim {
       std::vector<PSTrace *> _traces;
 
     public:
-      Builder(const std::vector<Task2 *> &tasks,
-              const std::vector<Runnable2 *> &runnables,
-              const std::vector<Label2 *> &labels);
+      Builder(const std::vector<Task2 *> cores[],
+              unsigned int cpu_n);
       ~Builder();
 
-      int buildKernels();
-      int buildTasks();
+      int buildKernels(const std::vector<Task2 *> cores[],
+                       unsigned int cpus);
+      int buildTasks(const std::vector<Task2 *> &tasks, unsigned int c);
   };
 }
 
