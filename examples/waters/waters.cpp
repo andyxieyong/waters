@@ -293,14 +293,6 @@ void test_tinyXML(void)
                             printf("\t lowerBound=%d upperBound=%d pRemainPromille=%s mean=%d\n", lowerBound, upperBound, pRemainPromille.c_str(), mean);
 
                         }
-
-                        //aggiungi runnable appena creato
-                        int r_pos = task->insertRunnable(runnable);
-
-                        runnable->setTask(task);
-                        runnable->setPosInTask(r_pos);
-                        runnableList.push_back(runnable);
-
                         prunnableItemsElement = prunnableItemsElement->NextSiblingElement("runnableItems");
                     }
 
@@ -311,6 +303,15 @@ void test_tinyXML(void)
                 }
 
                 g_runnables_count++;
+
+                //aggiungi runnable appena creato
+                int r_pos = task->insertRunnable(runnable);
+
+                runnable->setTask(task);
+                runnable->setPosInTask(r_pos);
+                runnableList.push_back(runnable);
+
+
                 pRunnableElement = pRunnableElement->NextSiblingElement("runnables");
             }
             printf("g_runnables_count = %d\n", g_runnables_count);
@@ -320,12 +321,11 @@ void test_tinyXML(void)
                 return;
             }
 
-
-            taskList.push_back(task);
             pCallsElement = pCallsElement->NextSiblingElement();
         }
 
         printf("\n");
+        taskList.push_back(task);
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
     }
 
