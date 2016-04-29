@@ -71,11 +71,26 @@ namespace RTSim {
                      0,
                      tasks.at(i)->getName());
 
-      t->insertCode("fixed(10);");
+      t->insertCode(buildRunnables(tasks.at(i)->runnables_list));
 
       _kernels.at(c)->addTask(*t, to_string(tasks.at(i)->getPriority()));
 
       _traces.at(c)->attachToTask(t);
     }
+  }
+
+  string Builder::buildRunnables(const vector<Runnable2 *> &runnables)
+  {
+    string instructions;
+
+    for (unsigned int i=0; i<runnables.size(); ++i) {
+      runnables.at(i);
+
+      instructions.append("runnable(" + runnables.at(i)->getName() + ");");
+    }
+
+    const char * c = instructions.c_str();
+
+    return "---TODO---lock(res);fixed(3);unlock(res);";
   }
 }

@@ -30,6 +30,7 @@ namespace RTSim {
       int buildKernels(const std::vector<Task2 *> cores[],
                        unsigned int cpus);
       int buildTasks(const std::vector<Task2 *> &tasks, unsigned int c);
+      string buildRunnables(const vector<Runnable2 *> &runnables);
   };
 }
 
