@@ -12,7 +12,7 @@ Task2::~Task2()
 
 }
 
-void Task2::setName(string &n)
+void Task2::setName(const string &n)
 {
     name = n;
 }

@@ -12,7 +12,8 @@ using namespace std;
 void Tokenize(const string& str, vector<string>& tokens, const string& delimiters = " ");
 
 int tous(string &s);
-string NthToken(const char *str, char *delim, int n);
-string NthToken(string &str, string &delim, int n);
-string NthToken(string &str, char *delim, int n);
+
+string NthToken(const string &str, const string &delim, int n);
+//string NthToken(const string &str, char *delim, int n);
+//string NthToken(const char *str, char *delim, int n);
 string firstToken(const char *str, char *delim);

@@ -25,6 +25,7 @@
 using namespace MetaSim;
 using namespace RTSim;
 using namespace tinyxml2;
+using namespace std;
 
 
 #ifndef XMLCheckResult
@@ -68,7 +69,7 @@ int countSiblingElements(XMLElement *pElement, char *elem_name, char *attr, char
 void test_tinyXML(void)
 {
     XMLDocument xmlDoc;
-    XMLError eResult = xmlDoc.LoadFile("ChallengeModel.amxmi");
+    XMLError eResult = xmlDoc.LoadFile("ChallengeModelModified.amxmi");
 
     XMLCheckResult(eResult);
 
@@ -157,7 +158,6 @@ void test_tinyXML(void)
 
 
         Task2 *task = new Task2();
-
 
         task->setName(string(task_name));
         task->setPriority(atoi(task_priority));
@@ -367,7 +367,7 @@ int main()
 
 
     test_tinyXML();
-    system("pause");
+    //system("pause");
     return 1;
 
     try {

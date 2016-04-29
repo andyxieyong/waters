@@ -173,7 +173,7 @@ namespace RTSim {
         if (_dl >= SIMUL.getTime()) deadEvt.post(_dl);
         
     }
-#define or ||
+
     void Task::block() 
     {
 	// check that the task is not idle and is not already blocked
@@ -295,7 +295,7 @@ namespace RTSim {
         }
         reactivate();
     }
-#define not !
+
     void Task::onEndInstance(Event *e)
     {
         DBGENTER(_TASK_DBG_LEV);

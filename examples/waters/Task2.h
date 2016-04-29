@@ -16,7 +16,7 @@ public:
     Task2();
     ~Task2();
 
-    void setName(string &n);
+    void setName(const string &n);
     string getName();
 
     void setPriority(int p);
