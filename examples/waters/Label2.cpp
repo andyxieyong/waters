@@ -5,11 +5,13 @@
 Label2::Label2()
 {
    isconstant = false;
+   enabled = false;
 }
 
 Label2::Label2(int id)
 {
     isconstant = false;
+    enabled = false;
     this->id = id;
 }
 
@@ -63,6 +65,27 @@ void Label2::setIsConstant(bool ic)
 bool Label2::getIsConstant()
 {
     return isconstant;
+}
+
+int Label2::read()
+{
+    if(!enabled) return -1;
+    printf("Label_%d read()\n", id);
+
+    return 0;
+}
+
+int Label2::write()
+{
+    if(!enabled) return -1;
+    printf("Label_%d write()\n", id);
+
+    return 0;
+}
+
+void Label2::enableTimestamp(bool en)
+{
+    enabled = en;
 }
 
 
