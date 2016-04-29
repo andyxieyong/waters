@@ -20,6 +20,7 @@
 #include "Label2.h"
 
 #include <vector>
+#include <map>
 
 
 using namespace MetaSim;
@@ -33,9 +34,21 @@ using namespace std;
 #endif
 
 
- std::vector<Task2 *> taskList;
- std::vector<Runnable2 *> runnableList;
- std::vector<Label2 *> labelList;
+
+//////////////////////////////////////////////////////
+
+vector<Task2 *> CPU_CORES[4];
+
+
+vector<Task2 *> taskList;
+map<string, Task2 *> taskName_taskP;
+
+vector<Runnable2 *> runnableList;
+map<string, Runnable2 *> runnableName_runnableP;
+
+vector<Label2 *> labelList;
+//////////////////////////////////////////////////////
+
 
 
 int countSiblingElements(XMLElement *pElement, char *elem_name)
@@ -314,16 +327,16 @@ void test_tinyXML(void)
 
             //aggiungi runnable appena creato
             int r_pos = task->insertRunnable(runnable);
-
             runnable->setTask(task);
             runnable->setPosInTask(r_pos);
             runnableList.push_back(runnable);
-
+            runnableName_runnableP[runnable->getName()] = runnable;
             pCallsElement = pCallsElement->NextSiblingElement();
         }
 
         printf("\n");
         taskList.push_back(task);
+        taskName_taskP[task->getName()] = task;
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
     }
 
@@ -337,11 +350,15 @@ void test_tinyXML(void)
 
     XMLElement *pprocessAllocationElement_first = pmappingModelElement->FirstChildElement("processAllocation");
     XMLElement *pprocessAllocationElement = pprocessAllocationElement_first;
-
-
     while(pprocessAllocationElement != nullptr)
     {
+        string task_name = firstToken(pprocessAllocationElement->Attribute("process"), "?");
+        int cpu_core_n = atoi(&NthToken(pprocessAllocationElement->Attribute("scheduler"), "_", 1)[4]);
 
+        printf("%s->\tCPU_CORE[%d]\n", task_name.c_str(), cpu_core_n);
+
+        //task_name a task_pointer
+        CPU_CORES[cpu_core_n].push_back(taskName_taskP[task_name]);
 
         pprocessAllocationElement = pprocessAllocationElement->NextSiblingElement("processAllocation");
     }
