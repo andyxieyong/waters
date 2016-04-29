@@ -46,25 +46,26 @@ int tous(string &s)
 }
 
 
-string NthToken(const char *str, char *delim, int n)
-{
-    return NthToken(string(str), string(delim), n);
-}
 
 
-string NthToken(string &str, string &delim, int n)
+string NthToken(const string &str, const string &delim, int n)
 {
     vector<string> tmp_tokens;
     Tokenize(str, tmp_tokens, delim);
     return tmp_tokens[n];
 }
 
+/*
+string NthToken(const char *str, char *delim, int n)
+{
+    return NthToken(string(str), string(delim), n);
+}
 
 string NthToken(string &str, char *delim, int n)
 {
     return NthToken(str, string(delim), n);
 }
-
+*/
 
 
 
