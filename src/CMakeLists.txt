@@ -39,7 +39,7 @@ add_library(rtlib ${LIB_TYPE} capacitytimer.cpp cbserver.cpp cpu.cpp
   kernel.cpp kernevt.cpp load.cpp mrtkernel.cpp piresman.cpp pollingserver.cpp 
   reginstr.cpp regsched.cpp regtask.cpp resmanager.cpp resource.cpp 
   rmsched.cpp rrsched.cpp rttask.cpp schedinstr.cpp schedpoints.cpp schedrta.cpp 
-  scheduler.cpp server.cpp sparepot.cpp sporadicserver.cpp supercbs.cpp 
+  scheduler.cpp server.cpp sparepot.cpp sporadicserver.cpp supercbs.cpp ps_trace.cpp
   task.cpp taskevt.cpp texttrace.cpp threinstr.cpp timer.cpp traceevent.cpp 
   tracepower.cpp waitinstr.cpp instr.cpp suspend_instr.cpp AVRTask.cpp json_trace.cpp)
 

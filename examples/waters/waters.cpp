@@ -19,6 +19,8 @@
 #include "Runnable2.h"
 #include "Label2.h"
 
+#include "builder.h"
+
 #include <vector>
 
 
@@ -365,6 +367,10 @@ int main()
 
 
     test_tinyXML();
+
+    Builder b(taskList, runnableList, labelList);
+    SIMUL.run(500);
+
     //system("pause");
     return 1;
 
