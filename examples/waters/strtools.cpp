@@ -69,11 +69,15 @@ string NthToken(string &str, char *delim, int n)
 
 
 
-string firstToken(const char *str, char *delim)
+string firstToken(const char *str, const char *delim)
 {
    return NthToken(str, delim, 0);
 }
 
 
-
+string FirsToken_AfterStr(const string &str, char *delim, char *AfterStr)
+{
+    string tmp = firstToken(str.c_str(), delim);
+    return tmp.substr(tmp.find(AfterStr)+1);
+}
 
