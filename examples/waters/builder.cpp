@@ -89,7 +89,8 @@ namespace RTSim {
         t = new WTask(nullptr,
                       relative_deadline,
                       activation_phase,
-                      tasks.at(i)->getName());
+                      tasks.at(i)->getName(),
+                      tasks.at(i)->getMultipleActivationTaskLimit());
         t->setPeriodic(period);
       } else {
         // TODO
