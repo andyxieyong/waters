@@ -1,5 +1,7 @@
 #include "builder.h"
 
+#include "wkernel.hpp"
+
 #include <randomvar.hpp>
 
 namespace RTSim {
@@ -53,7 +55,7 @@ namespace RTSim {
         PSTrace * t = new PSTrace("trace_" + to_string(c) + ".pst");
         FPScheduler * s = new FPScheduler();
         CPU * cpu = new CPU("CPU" + to_string(c));
-        RTKernel * k = new RTKernel(s, "Kernel" + to_string(c), cpu);
+        WKernel * k = new WKernel(s, "Kernel" + to_string(c), cpu);
         FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
 
         rm->addResource("preemptRes" + to_string(c));
