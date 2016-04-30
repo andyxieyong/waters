@@ -21,9 +21,13 @@ namespace RTSim {
   {
     string name = tt.getName();
     CPU * cpu = tt.getCPU();
-    int index = 0;
-    if (cpu)
-      index = cpu->getIndex();
+    string index = "0";
+    if (cpu) {
+      if (cpu->getName().length() > 0)
+        index = cpu->getName();
+      else
+        index = cpu->getIndex();
+    }
 
     fd << SIMUL.getTime() << "\t";
     fd << name << "\t";
