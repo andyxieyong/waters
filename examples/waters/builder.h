@@ -21,7 +21,7 @@ namespace RTSim {
 
   class Builder {
       std::vector<CPU *>_CPUs;                // Resources managers
-      std::vector<ResManager *>_res_managers; // Resources managers
+      //std::vector<ResManager *>_res_managers; // Resources managers
       std::vector<RTKernel *>_kernels;        // Kernels
       std::vector<Scheduler *>_schedulers;    // Schedulers
       std::vector<Task *>_tasks_per;          // Periodic tasks

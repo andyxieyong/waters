@@ -1,6 +1,7 @@
 #include "builder.h"
 
 #include "wkernel.hpp"
+#include "wtask.hpp"
 
 #include <randomvar.hpp>
 
@@ -37,10 +38,10 @@ namespace RTSim {
       delete _traces.back();
       _traces.pop_back();
     }
-    while (_res_managers.size() > 0) {
-      delete _res_managers.back();
-      _res_managers.pop_back();
-    }
+    //while (_res_managers.size() > 0) {
+    //  delete _res_managers.back();
+    //  _res_managers.pop_back();
+    //}
     while (_CPUs.size() > 0) {
       delete _CPUs.back();
       _CPUs.pop_back();
@@ -52,22 +53,22 @@ namespace RTSim {
                             unsigned int cpus)
   {
     for (unsigned int c=0; c<cpus; c++) {
-        PSTrace * t = new PSTrace("trace_" + to_string(c) + ".pst");
-        FPScheduler * s = new FPScheduler();
-        CPU * cpu = new CPU("CPU" + to_string(c));
-        WKernel * k = new WKernel(s, "Kernel" + to_string(c), cpu);
-        FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
+      PSTrace * t = new PSTrace("trace_" + to_string(c) + ".pst");
+      FPScheduler * s = new FPScheduler();
+      CPU * cpu = new CPU("CPU" + to_string(c));
+      WKernel * k = new WKernel(s, "Kernel" + to_string(c), cpu);
 
-        rm->addResource("preemptRes" + to_string(c));
-        k->setResManager(rm);
+      //FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
+      //rm->addResource("preemptRes" + to_string(c));
+      //k->setResManager(rm);
+      //_res_managers.push_back(rm);
 
-        _CPUs.push_back(cpu);
-        _res_managers.push_back(rm);
-        _traces.push_back(t);
-        _schedulers.push_back(s);
-        _kernels.push_back(k);
+      _CPUs.push_back(cpu);
+      _traces.push_back(t);
+      _schedulers.push_back(s);
+      _kernels.push_back(k);
 
-        buildTasks(cores[c], c);
+      buildTasks(cores[c], c);
     }
 
     return 0;
@@ -78,16 +79,30 @@ namespace RTSim {
                           unsigned int c)
   {
     for (unsigned int i=0; i<tasks.size(); i++) {
-      Tick period(tasks.at(i)->getPeriod());
-      Task * t;
+      WTask * t;
 
-      if (tasks.at(i)->isPeriodic())
-        t = new PeriodicTask(period, period, 0, tasks.at(i)->getName());
-      else
-        t = new Task(new DeltaVar((tasks.at(i)->getMinInterArrivalTime() + tasks.at(i)->getMaxInterArrivalTime()) / 2), //TODO
-                     period,
-                     0,
-                     tasks.at(i)->getName());
+      if (tasks.at(i)->isPeriodic()) {
+        Tick period = tasks.at(i)->getPeriod();
+        Tick relative_deadline = period;
+        Tick activation_phase = 0;
+
+        t = new WTask(nullptr,
+                      relative_deadline,
+                      activation_phase,
+                      tasks.at(i)->getName());
+        t->setPeriodic(period);
+      } else {
+        // TODO
+        Tick relative_deadline = 0;
+        Tick activation_phase = 0;
+
+        t = new WTask(nullptr,
+                      800000,
+                      activation_phase,
+                      tasks.at(i)->getName(),
+                      tasks.at(i)->getMultipleActivationTaskLimit());
+        t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
+      }
 
       t->insertCode(buildRunnables(tasks.at(i)->runnables_list, c));
 
@@ -108,8 +123,8 @@ namespace RTSim {
     for (unsigned int i=0; i<runnables.size(); ++i) {
       runnables.at(i);
 
-      //instructions.append("fixed(10);");
-      instructions.append("wait(preemptRes" + to_string(c) + ");fixed(10);signal(preemptRes" + to_string(c) + ");");
+      instructions.append("fixed(10);");
+      //instructions.append("wait(preemptRes" + to_string(c) + ");fixed(10);signal(preemptRes" + to_string(c) + ");");
     }
 
     const char * s = instructions.c_str();
