@@ -13,6 +13,9 @@
 #include "tinyxml/tinyxml2.h"
 
 
+#include "weibullvar.h"
+
+
 #include "strtools.h"
 
 #include "Task2.h"
@@ -376,13 +379,30 @@ void test_tinyXML(void)
 
 
 
+void test_weibull()
+{
+
+  for (double k = 0.5; k <=5; k *= 2) {
+    WeibullVar wv(1, k);
+
+    fstream weibullout;
+    weibullout.open("weibullOut" + to_string(k) + ".dat", ios_base::out);
+    for (unsigned int i=0; i<100000; ++i) {
+      double value = wv.get();
+
+      if (value <= 2.5)
+        weibullout << value << endl;
+    }
+    weibullout.close();
+  }
+}
 
 
 
 
 int main()
 {
-
+  //test_weibull();
   test_tinyXML();
 
   try {
