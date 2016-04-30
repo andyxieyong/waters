@@ -18,6 +18,8 @@
 #include "Task2.h"
 #include "Runnable2.h"
 #include "Label2.h"
+#include "EventChains2.h"
+#include "EventChains2_elem.h"
 
 #include <vector>
 #include <map>
@@ -36,9 +38,7 @@ using namespace std;
 
 
 //////////////////////////////////////////////////////
-
 vector<Task2 *> CPU_CORES[4];
-
 
 vector<Task2 *> taskList;
 map<string, Task2 *> taskName_taskP;
@@ -47,6 +47,8 @@ vector<Runnable2 *> runnableList;
 map<string, Runnable2 *> runnableName_runnableP;
 
 vector<Label2 *> labelList;
+
+vector<EventChains2 *> eventChains;
 //////////////////////////////////////////////////////
 
 
@@ -79,7 +81,7 @@ int countSiblingElements(XMLElement *pElement, char *elem_name, char *attr, char
 
 
 
-void test_tinyXML(void)
+void parse_XMLmodel(void)
 {
     XMLDocument xmlDoc;
     XMLError eResult = xmlDoc.LoadFile("ChallengeModelModified.amxmi");
@@ -139,7 +141,7 @@ void test_tinyXML(void)
 
         if(lpos != label_id)
         {
-            //should never happen
+            //should never happens
             printf("lpos != label_id , quit\n");
             return;
         }
@@ -338,6 +340,8 @@ void test_tinyXML(void)
         pTaskElement = pTaskElement->NextSiblingElement("tasks");
     }
 
+
+
     //
     //CPU_CORE->TASK mapping parsing
     //
@@ -363,11 +367,65 @@ void test_tinyXML(void)
         pprocessAllocationElement = pprocessAllocationElement->NextSiblingElement("processAllocation");
     }
 
+    printf("\n");
+
+    //
+    //event_chain mapping
+    //
+
+    XMLElement *pconstraintsModelElement = pRoot->FirstChildElement("constraintsModel");
+    if (pconstraintsModelElement == nullptr)
+    {
+        printf("constraintsModel\n");
+        return;
+    }
+
+    XMLElement *peventChainsElement_first = pconstraintsModelElement->FirstChildElement("eventChains");
+    XMLElement *peventChainsElement = peventChainsElement_first;
+    while(peventChainsElement != nullptr)
+    {
+        const char *stimulus = peventChainsElement->Attribute("stimulus");
+        const char *response = peventChainsElement->Attribute("response");
+        const char *evtc_name = peventChainsElement->Attribute("name");
+        string runnable_stimulus_name = FirsToken_AfterStr(stimulus, "?", "_");
+        string runnable_response_name = FirsToken_AfterStr(response, "?", "_");
+
+        printf("eventChain=%s stimulus=%s  response=%s\n", evtc_name, runnable_stimulus_name.c_str(), runnable_response_name.c_str());
+
+        EventChains2 *evtc = new EventChains2();
+        evtc->runnable_stimulus = runnableName_runnableP[runnable_stimulus_name];
+        evtc->runnable_response = runnableName_runnableP[runnable_response_name];
+        evtc->name = evtc_name;
 
 
+        XMLElement *psegmentElement = peventChainsElement->FirstChildElement("segments");
+        while(psegmentElement != nullptr)
+        {
+            //notice that this peventChainElement doesn't have the S ! (is chain, not chainS)
+            XMLElement *peventChainElement = psegmentElement->FirstChildElement("eventChain");
+
+            const char *stimulus = peventChainElement->Attribute("stimulus");
+            const char *response = peventChainElement->Attribute("response");
+            const char *label_wr = peventChainElement->Attribute("name");
+
+            EventChains2_elem *evtc_elem = new EventChains2_elem();
+            evtc_elem->runnable_stimulus = runnableName_runnableP[FirsToken_AfterStr(stimulus, "?", "_")];
+            evtc_elem->runnable_response = runnableName_runnableP[FirsToken_AfterStr(response, "?", "_")];
+
+            int label_wr_id = atoi(NthToken(label_wr, "_", 2).c_str());
+            evtc_elem->label_wr = labelList[label_wr_id];
+
+            printf("\tWR_Label_%d stimulus=%s response=%s\n", label_wr_id, evtc_elem->runnable_stimulus->getName().c_str(), evtc_elem->runnable_response->getName().c_str());
+            evtc->eventChains_elems.push_back(evtc_elem);
+            psegmentElement = psegmentElement->NextSiblingElement("segments");
+        }
+
+        eventChains.push_back(evtc);
+        peventChainsElement = peventChainsElement->NextSiblingElement("eventChains");
+    }
 
 
-    printf("fine!\n");
+    printf("\n\nfine!\n");
 
 }
 
@@ -381,7 +439,7 @@ int main()
 {
 
 
-    test_tinyXML();
+    parse_XMLmodel();
     //system("pause");
     return 1;
 
