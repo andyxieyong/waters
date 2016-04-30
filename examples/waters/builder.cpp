@@ -93,11 +93,11 @@ namespace RTSim {
         t->setPeriodic(period);
       } else {
         // TODO
-        Tick relative_deadline = 0;
+        Tick relative_deadline = 800000;
         Tick activation_phase = 0;
 
         t = new WTask(nullptr,
-                      800000,
+                      relative_deadline,
                       activation_phase,
                       tasks.at(i)->getName(),
                       tasks.at(i)->getMultipleActivationTaskLimit());
