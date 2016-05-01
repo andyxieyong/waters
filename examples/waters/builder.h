@@ -7,9 +7,6 @@
 
 #include <ps_trace.hpp>
 
-#include <piresman.hpp>
-#include <fcfsresmanager.hpp>
-
 #include <cpu.hpp>
 
 #include "Task2.h"

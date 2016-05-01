@@ -1,7 +1,7 @@
 #include "builder.h"
 
-#include "wkernel.hpp"
-#include "wtask.hpp"
+#include <piresman.hpp>
+#include <fcfsresmanager.hpp>
 
 #include <randomvar.hpp>
 
@@ -53,12 +53,13 @@ namespace RTSim {
                             unsigned int cpus)
   {
     for (unsigned int c=0; c<cpus; c++) {
-      PSTrace * t = new PSTrace("trace_" + to_string(c) + ".pst");
-      FPScheduler * s = new FPScheduler();
-      CPU * cpu = new CPU("CPU" + to_string(c));
-      WKernel * k = new WKernel(s, "Kernel" + to_string(c), cpu);
+      PSTrace *t = new PSTrace("trace_" + to_string(c) + ".pst");
+      FPScheduler *s = new FPScheduler();
+      CPU *cpu = new CPU("CPU" + to_string(c));
+      RTKernel *k = new RTKernel(s, "Kernel" + to_string(c), cpu);
 
-      FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
+      PIRManager *rm = new PIRManager("preemptResMng_" + to_string(c));
+      //FCFSResManager *rm = new FCFSResManager("preemptResMng_" + to_string(c));
       rm->addResource("preemptRes" + to_string(c));
       k->setResManager(rm);
       _res_managers.push_back(rm);
@@ -79,39 +80,43 @@ namespace RTSim {
                           unsigned int c)
   {
     for (unsigned int i=0; i<tasks.size(); i++) {
-      WTask * t;
+      Task * t;
 
       if (tasks.at(i)->isPeriodic()) {
         Tick period = tasks.at(i)->getPeriod();
         Tick relative_deadline = period;
         Tick activation_phase = 0;
 
-        t = new WTask(nullptr,
-                      relative_deadline,
-                      activation_phase,
-                      tasks.at(i)->getName(),
-                      tasks.at(i)->getMultipleActivationTaskLimit());
-        t->setPeriodic(period);
+        t = new Task(new DeltaVar(period),
+                     relative_deadline,
+                     activation_phase,
+                     tasks.at(i)->getName(),
+                     tasks.at(i)->getMultipleActivationTaskLimit());
+        //t->setPeriodic(period);
       } else {
         // TODO
-        Tick relative_deadline = 800000;
+        Tick relative_deadline = 8000000;
         Tick activation_phase = 0;
 
-        t = new WTask(nullptr,
-                      relative_deadline,
-                      activation_phase,
-                      tasks.at(i)->getName(),
-                      tasks.at(i)->getMultipleActivationTaskLimit());
-        t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
+        t = new Task(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),
+                                    tasks.at(i)->getMaxInterArrivalTime()),
+                     relative_deadline,
+                     activation_phase,
+                     tasks.at(i)->getName(),
+                     tasks.at(i)->getMultipleActivationTaskLimit());
+        //t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
       }
 
-      t->insertCode(buildRunnables(tasks.at(i)->runnables_list, tasks.at(i)->isCooperative(), c));
+      string code = buildRunnables(tasks.at(i)->runnables_list,
+                                   tasks.at(i)->isCooperative(),
+                                   c);
+
+      t->insertCode(code);
 
       unsigned int priority = tasks.at(i)->getPriority();
 
-      _kernels.at(c)->addTask(*t, to_string(priority));
-
       _traces.at(c)->attachToTask(t);
+      _kernels.at(c)->addTask(*t, to_string(priority));
     }
 
     return 0;
@@ -131,8 +136,6 @@ namespace RTSim {
       if (cooperative)
         instructions.append("signal(preemptRes" + to_string(c) + ");");
     }
-
-    const char * s = instructions.c_str();
 
     return instructions;
   }

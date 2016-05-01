@@ -98,10 +98,13 @@ namespace RTSim {
       int lb = runnableName_runnableP[this->getName()]->lowerBound;
       int ub = runnableName_runnableP[this->getName()]->upperBound;
 
+      /*
       currentCost = Tick(dynamic_cast<WeibullVar *>(cost_generator.get())->get(lb, ub, 2.5));
-
       if (currentCost > ub || currentCost < lb)
         throw InstrExc("Wrong instruction cost chosen!", "RunnableInstr::schedule()");
+        */
+      currentCost = 10;
+
 
       DBGPRINT_2("Time to execute for this instance: ",
                  currentCost);
