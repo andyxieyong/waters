@@ -44,7 +44,7 @@ namespace RTSim {
   using namespace std;
   using namespace MetaSim;
 
-  /** 
+  /**
       \ingroup instr
 
       These instructions (ExecInstr & FixedInstr) are used to model a
@@ -52,53 +52,54 @@ namespace RTSim {
       building block of a real task
 
       @author Luigi Palopoli, Giuseppe Lipari, Gerardo Lamastra, Antonio Casile
-      @version 2.0 
+      @version 2.0
       @see Instr */
 
   class RunnableInstr : public Instr {
-  protected:
-    /// End of Instruction flag
-    bool flag;         
-    /// Random var representing the instruction cost/duration
-    auto_ptr<RandomVar> cost;
-    /// Actual Real-Time execution of the instruction
-    Tick execdTime;    
-    /// Duration of the current instruction 
-    Tick currentCost;  
-    /// Execution time spent by the instruction
-    double actTime;   
-    /// Last instant of time this instruction was scheduled
-    Tick lastTime;     
-    /// True if the instruction is currently executing
-    bool executing;    
-  public:
+    protected:
+      /// End of Instruction flag
+      bool flag;
+      /// Random var representing the instruction cost/duration
+      auto_ptr<RandomVar> cost_generator;
+      /// Actual Real-Time execution of the instruction
+      Tick execdTime;
+      Tick maximumcost;
+      /// Duration of the current instruction
+      Tick currentCost;
+      /// Execution time spent by the instruction
+      double actTime;
+      /// Last instant of time this instruction was scheduled
+      Tick lastTime;
+      /// True if the instruction is currently executing
+      bool executing;
+    public:
 
-    EndInstrEvt _endEvt;
+      EndInstrEvt _endEvt;
 
-    RunnableInstr(Task *f, const string &n = "");
-    static Instr *createInstance(vector<string> &par);
+      RunnableInstr(Task *f, const string &n = "");
+      static Instr *createInstance(vector<string> &par);
 
-    virtual ~RunnableInstr() {}
+      virtual ~RunnableInstr() {}
 
-    //Virtual methods from Instr
-    virtual void schedule() throw (InstrExc);
-    virtual void deschedule();
-    virtual void onEnd();
-    virtual void reset();
-    virtual Tick getDuration() const;
-    virtual Tick getWCET() const throw(RandomVar::MaxException);
-    virtual Tick getExecTime() const;
-    virtual void setTrace(Trace *t);
+      //Virtual methods from Instr
+      virtual void schedule() throw (InstrExc);
+      virtual void deschedule();
+      virtual void onEnd();
+      virtual void reset();
+      virtual Tick getDuration() const;
+      virtual Tick getWCET() const throw(RandomVar::MaxException);
+      virtual Tick getExecTime() const;
+      virtual void setTrace(Trace *t);
 
-    //From Entity...
-    virtual void newRun();
-    virtual void endRun();
+      //From Entity...
+      virtual void newRun();
+      virtual void endRun();
 
 
-    /** Function inherited from Instr. It refreshes the state of the 
-     *  executing instruction when a change of the CPU speed occurs. 
-     */ 
-    void refreshExec(double oldSpeed, double newSpeed);
+      /** Function inherited from Instr. It refreshes the state of the
+     *  executing instruction when a change of the CPU speed occurs.
+     */
+      void refreshExec(double oldSpeed, double newSpeed);
 
   };
 

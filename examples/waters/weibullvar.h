@@ -35,6 +35,8 @@ namespace MetaSim {
       }
 
       virtual double get();
+      double get(double min, double max, double weibull_limit);
+
       static RandomVar *createInstance(vector<string> &par);
       virtual double getMaximum() throw(MaxException)
           {throw MaxException("ExponentialVar");}

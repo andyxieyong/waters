@@ -26,6 +26,8 @@
 
 #include "builder.h"
 
+#include "shared.h"
+
 #include <vector>
 #include <map>
 

@@ -11,6 +11,24 @@ namespace MetaSim {
     return _lambda * pow(-log(x), 1/_k);
   }
 
+  double WeibullVar::get(double min, double max, double weibull_limit)
+  {
+    if (min > max)
+        throw WeibullException("Min cannot be greater than max");
+
+    double x, ret;
+
+    do {
+      x = get();
+    } while (x > weibull_limit);
+
+    x = x / weibull_limit;
+
+    ret = x * (max - min) + min;
+
+    return ret;
+  }
+
   RandomVar *WeibullVar::createInstance(vector<string> &par)
   {
       if (par.size() != 2)

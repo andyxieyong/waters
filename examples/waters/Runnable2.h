@@ -36,6 +36,9 @@ public:
     Task2 *getTask();
     int getPosInTask();
 
+    int lowerBound;
+    int upperBound;
+
 private:
     string name;
     vector<int> labelsRead_list;
@@ -43,8 +46,6 @@ private:
 
 
     //distribution params
-    int lowerBound;
-    int upperBound;
     string pRemainPromille;
     int mean;
 
