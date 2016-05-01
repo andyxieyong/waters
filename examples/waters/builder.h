@@ -21,7 +21,7 @@ namespace RTSim {
 
   class Builder {
       std::vector<CPU *>_CPUs;                // Resources managers
-      //std::vector<ResManager *>_res_managers; // Resources managers
+      std::vector<ResManager *>_res_managers; // Resources managers
       std::vector<RTKernel *>_kernels;        // Kernels
       std::vector<Scheduler *>_schedulers;    // Schedulers
       std::vector<Task *>_tasks_per;          // Periodic tasks
@@ -36,7 +36,7 @@ namespace RTSim {
       int buildKernels(const std::vector<Task2 *> cores[],
                        unsigned int cpus);
       int buildTasks(const std::vector<Task2 *> &tasks, unsigned int c);
-      string buildRunnables(const vector<Runnable2 *> &runnables, unsigned int c);
+      string buildRunnables(const vector<Runnable2 *> &runnables, bool cooperative, unsigned int c);
   };
 }
 

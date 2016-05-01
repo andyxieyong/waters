@@ -44,6 +44,9 @@ public:
     int insertRunnable(Runnable2 *r);
 
     bool isPeriodic();
+    bool isCooperative() {
+      return preemption == cooperative;
+    }
 
     vector<Runnable2 *> runnables_list;
 

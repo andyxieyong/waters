@@ -38,10 +38,10 @@ namespace RTSim {
       delete _traces.back();
       _traces.pop_back();
     }
-    //while (_res_managers.size() > 0) {
-    //  delete _res_managers.back();
-    //  _res_managers.pop_back();
-    //}
+    while (_res_managers.size() > 0) {
+      delete _res_managers.back();
+      _res_managers.pop_back();
+    }
     while (_CPUs.size() > 0) {
       delete _CPUs.back();
       _CPUs.pop_back();
@@ -58,10 +58,10 @@ namespace RTSim {
       CPU * cpu = new CPU("CPU" + to_string(c));
       WKernel * k = new WKernel(s, "Kernel" + to_string(c), cpu);
 
-      //FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
-      //rm->addResource("preemptRes" + to_string(c));
-      //k->setResManager(rm);
-      //_res_managers.push_back(rm);
+      FCFSResManager * rm = new FCFSResManager("preemptResMng_" + to_string(c));
+      rm->addResource("preemptRes" + to_string(c));
+      k->setResManager(rm);
+      _res_managers.push_back(rm);
 
       _CPUs.push_back(cpu);
       _traces.push_back(t);
@@ -105,7 +105,7 @@ namespace RTSim {
         t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
       }
 
-      t->insertCode(buildRunnables(tasks.at(i)->runnables_list, c));
+      t->insertCode(buildRunnables(tasks.at(i)->runnables_list, tasks.at(i)->isCooperative(), c));
 
       unsigned int priority = tasks.at(i)->getPriority();
 
@@ -117,15 +117,19 @@ namespace RTSim {
     return 0;
   }
 
-  string Builder::buildRunnables(const vector<Runnable2 *> &runnables, unsigned int c)
+  string Builder::buildRunnables(const vector<Runnable2 *> &runnables, bool cooperative, unsigned int c)
   {
     string instructions;
 
     for (unsigned int i=0; i<runnables.size(); ++i) {
-      runnables.at(i);
 
-      instructions.append("fixed(10);");
-      //instructions.append("wait(preemptRes" + to_string(c) + ");fixed(10);signal(preemptRes" + to_string(c) + ");");
+      if (cooperative)
+        instructions.append("wait(preemptRes" + to_string(c) + ");");
+
+      instructions.append("runnable(" + runnables.at(i)->getName() + ");");
+
+      if (cooperative)
+        instructions.append("signal(preemptRes" + to_string(c) + ");");
     }
 
     const char * s = instructions.c_str();
