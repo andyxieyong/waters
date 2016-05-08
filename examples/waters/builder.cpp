@@ -80,6 +80,12 @@ namespace RTSim {
                           unsigned int c)
   {
     for (unsigned int i=0; i<tasks.size(); i++) {
+
+      if (tasks.at(i)->getName() == ("Task_2ms")) {
+        Task2 * myT = tasks.at(i);
+        asm("NOP");
+      }
+
       Task * t;
 
       if (tasks.at(i)->isPeriodic()) {
@@ -91,7 +97,7 @@ namespace RTSim {
                      relative_deadline,
                      activation_phase,
                      tasks.at(i)->getName(),
-                     tasks.at(i)->getMultipleActivationTaskLimit());
+                     tasks.at(i)->getMultipleActivationTaskLimit() - 1);
         //t->setPeriodic(period);
       } else {
         // TODO
@@ -103,7 +109,7 @@ namespace RTSim {
                      relative_deadline,
                      activation_phase,
                      tasks.at(i)->getName(),
-                     tasks.at(i)->getMultipleActivationTaskLimit());
+                     tasks.at(i)->getMultipleActivationTaskLimit() - 1);
         //t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
       }
 
@@ -116,7 +122,7 @@ namespace RTSim {
       unsigned int priority = tasks.at(i)->getPriority();
 
       _traces.at(c)->attachToTask(t);
-      _kernels.at(c)->addTask(*t, to_string(priority));
+      _kernels.at(c)->addTask(*t, to_string(5000 - priority));
     }
 
     return 0;

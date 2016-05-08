@@ -35,7 +35,7 @@ namespace MetaSim {
       }
 
       virtual double get();
-      double get(double min, double max, double weibull_limit);
+      double get(double min);
 
       static RandomVar *createInstance(vector<string> &par);
       virtual double getMaximum() throw(MaxException)
@@ -43,5 +43,9 @@ namespace MetaSim {
       virtual double getMinimum() throw(MaxException)
           {throw MaxException("ExponentialVar");}
   };
+
+  WeibullVar weibullFromAmalthea(double min, double max, double mean, double pRemainPromille);
+
+  void weibullConverterTest();
 }
 #endif // WEIBULLVAR_H

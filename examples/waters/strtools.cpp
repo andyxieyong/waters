@@ -26,7 +26,7 @@ void Tokenize(const string &str,
 
 int tous(string &s)
 {
-    int mul = 1;
+    int mul = 1000;
     int m2 = s.length()-2;
 
     int pos = s.find('?');
@@ -39,7 +39,7 @@ int tous(string &s)
 
     if(s[m2] == 'm')
     {
-        mul = 1000;
+        mul *= 1000;
     }
 
     return atoi(s.c_str())*mul;

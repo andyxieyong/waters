@@ -230,7 +230,7 @@ namespace RTSim {
     
     void Task::buffArrival()
     {
-        if ((int)arrQueue.size() <= arrQueueSize) {
+        if ((int)arrQueue.size() < arrQueueSize) {
             arrQueue.push_back(SIMUL.getTime());
         }
     }

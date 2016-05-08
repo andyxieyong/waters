@@ -465,11 +465,17 @@ int main()
   //test_weibull();
   //test_tinyXML();
 
+  //weibullConverterTest();
+
   parse_XMLmodel();
+
+  for (auto o : runnableList) {
+    o->setWeibull();
+  }
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run(500 * 1000);
+    SIMUL.run(500 * 1000 * 1000);
   } catch (BaseExc &e) {
     cout << e.what() << endl;
   }

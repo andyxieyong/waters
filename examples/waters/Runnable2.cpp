@@ -69,3 +69,10 @@ int Runnable2::getPosInTask()
     return task_i;
 }
 
+void Runnable2::setWeibull()
+{
+  wv = std::unique_ptr<MetaSim::WeibullVar>(new MetaSim::WeibullVar(MetaSim::weibullFromAmalthea(lowerBound,
+                                                            upperBound,
+                                                            mean,
+                                                            std::stod(pRemainPromille))));
+}

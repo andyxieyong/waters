@@ -25,8 +25,6 @@
 #include <runnableinstr.hpp>
 #include <task.hpp>
 
-#include "../examples/waters/shared.h"
-#include "../examples/waters/weibullvar.h"
 
 namespace RTSim {
 
@@ -95,16 +93,18 @@ namespace RTSim {
       actTime = 0;
       flag = false;
 
-      int lb = runnableName_runnableP[this->getName()]->lowerBound;
-      int ub = runnableName_runnableP[this->getName()]->upperBound;
+      Runnable2 *runnable = runnableName_runnableP[this->getName()];
 
       /*
       currentCost = Tick(dynamic_cast<WeibullVar *>(cost_generator.get())->get(lb, ub, 2.5));
       if (currentCost > ub || currentCost < lb)
         throw InstrExc("Wrong instruction cost chosen!", "RunnableInstr::schedule()");
         */
-      currentCost = 10;
+      currentCost = Tick(runnable->getComputationTime());// runnable->wv.get();
 
+      //for (auto labels : runnable->labelsRead_list) {
+      //   TODO: settare nel task i timestamp di lettura del runnable
+      //}
 
       DBGPRINT_2("Time to execute for this instance: ",
                  currentCost);
@@ -172,9 +172,14 @@ namespace RTSim {
 
     DBGPRINT("internal data set... now calling the _father->onInstrEnd()");
 
+
+    Runnable2 *runnable = runnableName_runnableP[this->getName()];
+
+    //for (auto labels : runnable->labelsWrite_list) {
+      // TODO: settare nelle label il timestamp di scrittura
+    //}
+
     _father->onInstrEnd();
-
-
   }
 
 

@@ -39,6 +39,10 @@
 //From RTLIB
 #include <instr.hpp>
 
+
+#include "../examples/waters/shared.h"
+#include "../examples/waters/weibullvar.h"
+
 namespace RTSim {
 
   using namespace std;

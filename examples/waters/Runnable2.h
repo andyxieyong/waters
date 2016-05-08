@@ -2,9 +2,10 @@
 
 #include <string>
 #include <vector>
-
+#include <memory>
 
 #include "Label2.h"
+#include "weibullvar.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
     void insertReadLabel(int id);
     void insertWriteLabel(int id);
 
+    void setWeibull();
 
     void setDistribParams(int l, int u, string &prp, int m);
 
@@ -36,14 +38,21 @@ public:
     Task2 *getTask();
     int getPosInTask();
 
-    int lowerBound;
-    int upperBound;
+    int getComputationTime()
+    {
+      return wv->get(lowerBound);
+    }
 
-private:
-    string name;
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
 
+private:
+    string name;
+
+    int lowerBound;
+    int upperBound;
+
+    std::unique_ptr<MetaSim::WeibullVar> wv;
 
     //distribution params
     string pRemainPromille;
