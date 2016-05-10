@@ -3,18 +3,20 @@
 #include <string>
 #include <vector>
 
+#include <metasim.hpp>
+
 using namespace std;
 
 class Runnable2;
 
 class Label2
 {
-
 public:
 
     Label2();
     Label2(int id);
-    Label2(int id, bool c);
+    //Label2(int id, bool c);
+
 
     ~Label2();
 
@@ -30,24 +32,31 @@ public:
     bool getIsConstant();
 
 
-    int read();
-    int write();
+    int read(MetaSim::Tick &ret_timestamp);
+    int write(MetaSim::Tick predecessor_timestamp);
 
-    void enableTimestamp(bool en);
-
+    void setInChain(bool en);
+    void setLastInChain(bool en);
+    void setFirstInChain(bool en);
 
     vector<Runnable2 *> runnablesRead_list;
     vector<Runnable2 *> runnablesWrite_list;
 
 
+    bool firstInChain;
+    bool timestampValid;
+    bool inChain;
+
 private:
+
+    void init();
+
     int id;
     bool isconstant;
     int size_bit;
 
-    bool enabled;
+    bool lastInChain;
 
-
-
+    MetaSim::Tick timestamp;
 
 };

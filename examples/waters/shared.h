@@ -2,3 +2,4 @@
 #include "Label2.h"
 
 extern map<string, Runnable2 *> runnableName_runnableP;
+extern vector<Label2 *> labelList;

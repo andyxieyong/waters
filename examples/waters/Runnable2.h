@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 
+#include <metasim.hpp>
+
 #include "Label2.h"
 #include "weibullvar.h"
 
@@ -38,16 +40,20 @@ public:
     Task2 *getTask();
     int getPosInTask();
 
-    int getComputationTime()
-    {
-      return wv->get(lowerBound);
-    }
+    void setInChain(bool en);
+
+    void readLabel(int l);
+    void writeLabel(int l);
+
+    int getComputationTime();
 
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
 
 private:
     string name;
+
+    bool inChain;
 
     int lowerBound;
     int upperBound;
@@ -61,7 +67,8 @@ private:
     Task2 *task;
     int task_i;
 
-
+    bool timestampValid;
+    MetaSim::Tick timestamp;
 
 };
 

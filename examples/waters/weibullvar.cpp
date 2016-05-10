@@ -94,7 +94,7 @@ namespace MetaSim {
 
 
 
-    //int status;
+    int status;
     int iter = 0, max_iter = 10000;
     const gsl_min_fminimizer_type *T;
     gsl_min_fminimizer *s;
@@ -116,21 +116,20 @@ namespace MetaSim {
       k = gsl_min_fminimizer_x_minimum(s);
       a = gsl_min_fminimizer_x_lower(s);
       b = gsl_min_fminimizer_x_upper(s);
-      /*
-        status
-          = gsl_min_test_interval (a, b, 0.00001, 0.0);
 
-        if (status == GSL_SUCCESS)
-          printf ("Converged:\n");
-*/
+      status = gsl_min_test_interval (a, b, 0.000001, 0.0);
+
+      //if (status == GSL_SUCCESS)
+      //  printf ("Converged:\n");
+
       //std::cout << "(" << iter << ")" << "[" << a << ", " << b << "]: " << k << " Err: " << fn1(k, (void *)&p) << " Range: " << b - a << endl;
     }
-    while (/*status == GSL_CONTINUE && */iter < max_iter);
+    while (status == GSL_CONTINUE && iter < max_iter);
 
     gsl_min_fminimizer_free (s);
     double lambda = weibullLambda(x, logP, k);
 
-    std::cout << "weibullFromAmalthea(" << min << ", " << max << ", " << mean << ", " << pRemainPromille << ") : <" << lambda << ", " << k << ">" << endl;
+    //std::cout << "weibullFromAmalthea(" << min << ", " << max << ", " << mean << ", " << pRemainPromille << ") : <" << lambda << ", " << k << ">" << endl;
 
     return WeibullVar(lambda, k);
   }

@@ -95,16 +95,12 @@ namespace RTSim {
 
       Runnable2 *runnable = runnableName_runnableP[this->getName()];
 
-      /*
-      currentCost = Tick(dynamic_cast<WeibullVar *>(cost_generator.get())->get(lb, ub, 2.5));
-      if (currentCost > ub || currentCost < lb)
-        throw InstrExc("Wrong instruction cost chosen!", "RunnableInstr::schedule()");
-        */
       currentCost = Tick(runnable->getComputationTime());// runnable->wv.get();
 
-      //for (auto labels : runnable->labelsRead_list) {
-      //   TODO: settare nel task i timestamp di lettura del runnable
-      //}
+      // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
+      for (auto label : runnable->labelsRead_list) {
+         runnable->readLabel(label);
+      }
 
       DBGPRINT_2("Time to execute for this instance: ",
                  currentCost);
@@ -175,9 +171,10 @@ namespace RTSim {
 
     Runnable2 *runnable = runnableName_runnableP[this->getName()];
 
-    //for (auto labels : runnable->labelsWrite_list) {
-      // TODO: settare nelle label il timestamp di scrittura
-    //}
+    // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
+    for (auto label : runnable->labelsWrite_list) {
+       runnable->writeLabel(label);
+    }
 
     _father->onInstrEnd();
   }
@@ -193,8 +190,6 @@ namespace RTSim {
     _endEvt.drop();
 
     DBGPRINT("internal data reset...");
-
-
   }
 
 

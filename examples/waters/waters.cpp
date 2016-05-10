@@ -406,6 +406,8 @@ void parse_XMLmodel(void)
         evtc->name = evtc_name;
 
 
+        int label_wr_id;
+        bool label_firstinchain = true;
         XMLElement *psegmentElement = peventChainsElement->FirstChildElement("segments");
         while(psegmentElement != nullptr)
         {
@@ -420,13 +422,27 @@ void parse_XMLmodel(void)
             evtc_elem->runnable_stimulus = runnableName_runnableP[FirsToken_AfterStr(stimulus, "?", "_")];
             evtc_elem->runnable_response = runnableName_runnableP[FirsToken_AfterStr(response, "?", "_")];
 
-            int label_wr_id = atoi(NthToken(label_wr, "_", 2).c_str());
+            label_wr_id = atoi(NthToken(label_wr, "_", 2).c_str());
             evtc_elem->label_wr = labelList[label_wr_id];
 
             printf("\tWR_Label_%d stimulus=%s response=%s\n", label_wr_id, evtc_elem->runnable_stimulus->getName().c_str(), evtc_elem->runnable_response->getName().c_str());
             evtc->eventChains_elems.push_back(evtc_elem);
             psegmentElement = psegmentElement->NextSiblingElement("segments");
+
+
+            evtc_elem->runnable_stimulus->setInChain(true);
+            evtc_elem->runnable_response->setInChain(true);
+
+            evtc_elem->label_wr->setInChain(true);
+
+            if (label_firstinchain)
+            {
+              evtc_elem->label_wr->setFirstInChain(true);
+              label_firstinchain = false;
+            }
         }
+
+        labelList[label_wr_id]->setLastInChain(true);
 
         eventChains.push_back(evtc);
         peventChainsElement = peventChainsElement->NextSiblingElement("eventChains");
@@ -475,7 +491,7 @@ int main()
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run(500 * 1000 * 1000);
+    SIMUL.run( 900 * 1000 * 1000);
   } catch (BaseExc &e) {
     cout << e.what() << endl;
   }
