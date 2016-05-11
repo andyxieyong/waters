@@ -44,12 +44,17 @@ public:
     void setInChain(bool en);
 
     void readLabel(int l);
-    void writeLabel(int l);
+    void writeLabel(int l, const Tick &activationTime);
 
     Tick getComputationTime();
 
+    void increaseID();
+
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
+
+    void saveFF(const string & filename);
+    void saveLL(const string & filename);
 
 private:
     string name;
@@ -68,9 +73,17 @@ private:
     Task2 *task;
     int task_i;
 
-    bool timestampValid;
-    MetaSim::Tick timestamp;
+    long long int job_id;
 
+    vector< pair<long long int, Tick> > _status;
+
+    long long int n_first;
+    long long int n_last;
+    Tick t_r0l;
+    Tick t_fCand;
+
+    vector<Tick> _FF;
+    vector<Tick> _LL;
 };
 
 

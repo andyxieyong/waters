@@ -7,7 +7,6 @@ void Label2::init()
   isconstant = false;
   lastInChain = false;
   inChain = false;
-  timestampValid = false;
 }
 
 Label2::Label2()
@@ -74,55 +73,40 @@ bool Label2::getIsConstant()
   return isconstant;
 }
 
-int Label2::read(MetaSim::Tick &ret_timestamp)
+int Label2::read(vector<pair<long long, Tick> > &status)
 {
   if(!inChain)
     return -1;
-  //printf("Label_%d read()\n", id);
 
-  if (!timestampValid) {
-    //printf("\tERROR: read() - !timestampValid!\n");
-    return -1;
-  }
+  printf("\t\tReturning and clearing status\n");
 
-  ret_timestamp = timestamp;
-  timestampValid = false;
+  status = _status;
 
-  if (lastInChain)
-  {
-    printf("%d reaction delay = %d \n", this->getid(), MetaSim::SIMUL.getTime() - timestamp);
-  }
+  if (status.size() == 0)
+      return -1;
 
+  _status.clear();
 
   return 0;
 }
 
-int Label2::write(MetaSim::Tick predecessor_timestamp)
+int Label2::write(vector< pair<long long int, Tick> > status)
 {
   if(!inChain) {
     return -1;
   }
 
-  //printf("Label_%d write()\n", id);
-
-
-  /*if (firstInChain)
-  {
-    timestamp = MetaSim::SIMUL.getTime();
-    timestampValid = true;
-
-    printf("\tFist timestamp written\n");
-
-    return 0;
+  if (_status.size() == 0) {
+      printf("\t\tEmpty label, copying status\n");
+      _status = status;
+  } else {
+      printf("\t\tFull label, updating second element\n");
+      if (status[0] != status[1]) {
+          printf("\t\tError!");
+          exit(1);
+      }
+      _status[1] = status[0];
   }
-  */
-
-  if (timestampValid) {
-    //printf("\tWarning: write() - timestampValid, overwriting!\n");
-  }
-
-  timestamp = predecessor_timestamp;
-  timestampValid = true;
 
   return 0;
 }
@@ -136,6 +120,11 @@ void Label2::setInChain(bool en)
 void Label2::setLastInChain(bool en)
 {
   lastInChain = en;
+}
+
+bool Label2::getLastInChain()
+{
+  return lastInChain;
 }
 
 void Label2::setFirstInChain(bool en)

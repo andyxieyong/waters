@@ -33,11 +33,12 @@ public:
     bool getIsConstant();
 
 
-    int read(Tick &ret_timestamp);
-    int write(Tick predecessor_timestamp);
+    int read(vector< pair<long long int, Tick> > &status);
+    int write(vector<pair<long long, Tick> > status);
 
     void setInChain(bool en);
     void setLastInChain(bool en);
+    bool getLastInChain();
     void setFirstInChain(bool en);
 
     vector<Runnable2 *> runnablesRead_list;
@@ -45,7 +46,6 @@ public:
 
 
     bool firstInChain;
-    bool timestampValid;
     bool inChain;
 
 private:
@@ -58,5 +58,5 @@ private:
 
     bool lastInChain;
 
-    Tick timestamp;
+    vector< pair<long long int, Tick> > _status;
 };

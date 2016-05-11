@@ -98,6 +98,7 @@ namespace RTSim {
       currentCost = Tick(runnable->getComputationTime());// runnable->wv.get();
 
       // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
+      runnable->increaseID();
       for (auto label : runnable->labelsRead_list) {
          runnable->readLabel(label);
       }
@@ -173,7 +174,7 @@ namespace RTSim {
 
     // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
     for (auto label : runnable->labelsWrite_list) {
-       runnable->writeLabel(label);
+       runnable->writeLabel(label, _father->getLastArrival());
     }
 
     _father->onInstrEnd();

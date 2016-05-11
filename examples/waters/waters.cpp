@@ -485,13 +485,21 @@ int main()
 
   parse_XMLmodel();
 
+  fflush(stdout);
+
   for (auto o : runnableList) {
     o->setWeibull();
   }
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run((long long int)5E9); // 5 seconds
+    SIMUL.run((long long int)20E9); // 20 seconds
+
+    for (auto e : eventChains) {
+        Runnable2 * r = e->runnable_response;
+        r->saveFF("Chain_" + e->name + "_FF.txt");
+        r->saveLL("Chain_" + e->name + "_LL.txt");
+    }
   } catch (BaseExc &e) {
     cout << e.what() << endl;
   }
