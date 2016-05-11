@@ -5,6 +5,7 @@
 
 #include <metasim.hpp>
 
+using namespace MetaSim;
 using namespace std;
 
 class Runnable2;
@@ -32,8 +33,8 @@ public:
     bool getIsConstant();
 
 
-    int read(MetaSim::Tick &ret_timestamp);
-    int write(MetaSim::Tick predecessor_timestamp);
+    int read(Tick &ret_timestamp);
+    int write(Tick predecessor_timestamp);
 
     void setInChain(bool en);
     void setLastInChain(bool en);
@@ -57,6 +58,5 @@ private:
 
     bool lastInChain;
 
-    MetaSim::Tick timestamp;
-
+    Tick timestamp;
 };

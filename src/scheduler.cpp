@@ -122,7 +122,7 @@ namespace RTSim {
         model->setInactive();
     }
 
-    int Scheduler::getPriority(AbsRTTask* task) throw(RTSchedExc)
+    long long int Scheduler::getPriority(AbsRTTask* task) throw(RTSchedExc)
     {
         TaskModel* model = find(task);
 	

@@ -3,8 +3,11 @@
 #include <string>
 #include <vector>
 
+#include <metasim.hpp>
+
 #include "Runnable2.h"
 
+using namespace MetaSim;
 using namespace std;
 
 enum Task_Stimuli {periodic, sporadic};
@@ -19,11 +22,11 @@ public:
     void setName(const string &n);
     string getName();
 
-    void setPriority(int p);
-    int getPriority();
+    void setPriority(Tick p);
+    Tick getPriority();
 
-    void setPeriod(int p);
-    int getPeriod();
+    void setPeriod(Tick p);
+    Tick getPeriod();
 
     void setStimuli(Task_Stimuli s);
     Task_Stimuli getStimuli();
@@ -32,9 +35,9 @@ public:
     Task_Preemption getPreemption();
 
 
-    void setInterArrivalTime(int min, int max);
-    int getMinInterArrivalTime();
-    int getMaxInterArrivalTime();
+    void setInterArrivalTime(Tick min, Tick max);
+    Tick getMinInterArrivalTime();
+    Tick getMaxInterArrivalTime();
 
 
     void setMultipleActivationTaskLimit(int matl);
@@ -53,14 +56,14 @@ public:
 private:
 
     string name;
-    int priority;
+    Tick priority;
 
     union
     {
-        int period;
-        int minInterArrivalTime;
+        Tick period;
+        Tick minInterArrivalTime;
     };
-    int maxInterArrivalTime;
+    Tick maxInterArrivalTime;
 
 
     int multipleActivationTaskLimit;

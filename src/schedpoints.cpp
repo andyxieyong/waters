@@ -99,7 +99,7 @@ namespace RTSim {
     }
 
     
-    SchedPoint::row_t SchedPoint::SetP(int D, const row_t &period, int task)
+    SchedPoint::row_t SchedPoint::SetP(long long int D, const row_t &period, long long int task)
     {
 
         //task is the task being analysed
@@ -158,7 +158,7 @@ namespace RTSim {
         for (int curTask=0;curTask<ntasks;curTask++){
             row_t schedP;
             // compute the scheduling points
-            schedP=SetP(period[curTask], period, curTask);
+            schedP = SetP(period[curTask], period, curTask);
  
             // initialize the empty matrix
             OneTaskConstraints.clear();

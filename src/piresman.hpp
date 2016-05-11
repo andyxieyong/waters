@@ -71,7 +71,7 @@ namespace RTSim {
 
     private:
         /// correspondence task / priority 
-        typedef map<std::string, int> PRIORITY_MAP;
+        typedef map<std::string, Tick> PRIORITY_MAP;
         
         /// Blocked tasks, ordered by priority. 
         /// There is one such queue for each resource

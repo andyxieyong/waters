@@ -54,10 +54,10 @@ namespace RTSim {
     };
     
     class VirtualTrace {
-        map<string, int> *results;
+        map<string, Tick> *results;
     public:
         
-        VirtualTrace(map<string, int> *r);
+        VirtualTrace(map<string, Tick> *r);
         
         ~VirtualTrace();
         

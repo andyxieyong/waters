@@ -49,7 +49,7 @@ namespace RTSim {
     protected:
         AbsRTTask* _rtTask;
         bool active;
-        int _insertTime;
+        long long int _insertTime;
 
 	int _threshold;
 
@@ -195,7 +195,7 @@ namespace RTSim {
          */
         virtual void extract(AbsRTTask *) throw(RTSchedExc, BaseExc);
 
-        int getPriority(AbsRTTask* task) throw(RTSchedExc);
+        long long int getPriority(AbsRTTask* task) throw(RTSchedExc);
 
         void changePriority(AbsRTTask* task, const std::string &params) 
             throw(RTSchedExc);
@@ -267,7 +267,7 @@ namespace RTSim {
 	AbsRTTask* _currExe;
 
         // stores the old task priorities
-        map<AbsRTTask *, int> oldPriorities;
+        map<AbsRTTask *, Tick> oldPriorities;
 
         /**
            This is the internal version of the addTask, it

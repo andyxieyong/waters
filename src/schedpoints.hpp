@@ -93,7 +93,7 @@ namespace RTSim {
         SchedPoint(const string &name);
         ~SchedPoint();
         
-        row_t SetP(int D, const row_t &schedpoints, int task);
+        row_t SetP(long long D, const row_t &schedpoints, long long task);
 
         constraints buildconstraints();
 

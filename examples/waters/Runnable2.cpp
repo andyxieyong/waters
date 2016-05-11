@@ -79,9 +79,9 @@ void Runnable2::setWeibull()
                                                                                                  std::stod(pRemainPromille))));
 }
 
-int Runnable2::getComputationTime()
+Tick Runnable2::getComputationTime()
 {
-  return wv->get(lowerBound);
+  return Tick(wv->get(lowerBound));
 }
 
 
@@ -96,7 +96,7 @@ void Runnable2::readLabel(int l)
   if (!labelList[l]->inChain)
     return;
 
-  printf("%d: %s <-- %d\n", MetaSim::SIMUL.getTime(), name.c_str(), l);
+  printf("%lld: %s <-- %d\n", (long long)SIMUL.getTime(), name.c_str(), l);
 
   // Try to reads the timestamp from the label
   MetaSim::Tick receivedTimestamp;
@@ -125,7 +125,7 @@ void Runnable2::writeLabel(int l)
   if (!labelList[l]->inChain)
     return;
 
-  printf("%d: %s --> %d\n", MetaSim::SIMUL.getTime(), name.c_str(), l);
+  printf("%lld: %s --> %d\n", (long long)SIMUL.getTime(), name.c_str(), l);
 
   // Write the label timestamp only if the predecessor's timestamp is
   // valid, otherwise write the current simulation time

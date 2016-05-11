@@ -9,6 +9,7 @@
 #include "Label2.h"
 #include "weibullvar.h"
 
+using namespace MetaSim;
 using namespace std;
 
 
@@ -45,7 +46,7 @@ public:
     void readLabel(int l);
     void writeLabel(int l);
 
-    int getComputationTime();
+    Tick getComputationTime();
 
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
@@ -55,14 +56,14 @@ private:
 
     bool inChain;
 
-    int lowerBound;
-    int upperBound;
+    Tick lowerBound;
+    Tick upperBound;
 
     std::unique_ptr<MetaSim::WeibullVar> wv;
 
     //distribution params
     string pRemainPromille;
-    int mean;
+    Tick mean;
 
     Task2 *task;
     int task_i;

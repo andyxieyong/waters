@@ -316,7 +316,7 @@ namespace RTSim {
     bool RandomOffsetGen::generate()
     {
         for (register int i = 0; i < taskSet->size(); i++) { 
-            int mylimit = (int) (iatGen->getMin(i)/_step);
+            long long int mylimit = (long long int)(iatGen->getMin(i) / _step);
             if (_islimit) mylimit = min(mylimit, _limit/_step);
             UniformVar r(0,mylimit);
             va[i] = Tick::round(r.get()) * _step;

@@ -119,7 +119,7 @@ namespace RTSim {
 
       t->insertCode(code);
 
-      unsigned int priority = tasks.at(i)->getPriority();
+      long long int priority = (long long int)tasks.at(i)->getPriority();
 
       _traces.at(c)->attachToTask(t);
       _kernels.at(c)->addTask(*t, to_string(5000 - priority));

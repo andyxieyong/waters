@@ -491,7 +491,7 @@ int main()
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run( 900 * 1000 * 1000);
+    SIMUL.run((long long int)5E9); // 5 seconds
   } catch (BaseExc &e) {
     cout << e.what() << endl;
   }

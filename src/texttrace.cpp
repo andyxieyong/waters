@@ -63,7 +63,7 @@ namespace RTSim {
 			new Particle<DeadEvt, TextTrace>(&t->deadEvt, this);
 		}
     
-        VirtualTrace::VirtualTrace(map<string, int> *r)
+        VirtualTrace::VirtualTrace(map<string, Tick> * r)
         {
             results = r;
         }

@@ -29,7 +29,7 @@ namespace RTSim {
     {
     protected:
         bool extP;
-        int prio;
+        Tick prio;
 
     public:
         EDFModel(AbsRTTask* t) :TaskModel(t), extP(false) {}
@@ -43,7 +43,7 @@ namespace RTSim {
                 if (p == _rtTask->getDeadline()) extP = false;
                 else {
                     extP = true;
-                    prio = int(p);
+                    prio = p;
                 }
             }
 

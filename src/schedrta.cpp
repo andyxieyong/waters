@@ -44,7 +44,7 @@ namespace RTSim {
             r_new = servers[i].Q;
             for (int j = 0; j < i; ++j)
                 // This is a ceil()
-                r_new += (r_cur + servers[j].P - 1) / int(servers[j].P) * servers[j].Q;
+                r_new += (r_cur + servers[j].P - 1) / (long long int)(servers[j].P) * servers[j].Q;
         } while(r_new > r_cur && r_new <= servers[i].P);
         return r_new;
     }

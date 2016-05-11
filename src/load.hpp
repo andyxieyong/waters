@@ -592,8 +592,8 @@ namespace RTSim {
        doing this, it reads the IAT::getAvg().
     */
     class RandomOffsetGen : public OffsetGen {
-        int _step;
-        int _limit;
+        long long int _step;
+        long long int _limit;
         bool _islimit;
     public:
         RandomOffsetGen(int step=1, bool islimit=false, int limit=1) : 

@@ -25,9 +25,11 @@
 #include <fstream>
 
 #include <baseexc.hpp>
+#include <metasim.hpp>
 
 namespace RTSim {
 
+  using namespace MetaSim;
   using namespace std;
 
   class Desc
@@ -143,7 +145,7 @@ namespace RTSim {
   public:
     TraceArrEvent() {_type = TASK_ARRIVAL;}
 
-    TraceArrEvent(int time, int task)
+    TraceArrEvent(Tick time, long int task)
       :TraceTaskEvent(TASK_ARRIVAL, time, task) {}
 
   };
@@ -179,7 +181,7 @@ namespace RTSim {
   public:
     TraceSchedEvent() {_type = TASK_SCHEDULE;}
 
-    TraceSchedEvent(int time, int task, int cpu)
+    TraceSchedEvent(Tick time, long int task, long int cpu)
       :TraceCPUEvent(TASK_SCHEDULE, time, task, cpu) {}
 
   };
@@ -189,7 +191,7 @@ namespace RTSim {
   public:
     TraceDeschedEvent() {_type = TASK_DESCHEDULE;}
 
-    TraceDeschedEvent(int time, int task, int cpu)
+    TraceDeschedEvent(Tick time, long int task, long int cpu)
       :TraceCPUEvent(TASK_DESCHEDULE, time, task, cpu) {}
 
   };
@@ -199,7 +201,7 @@ namespace RTSim {
   public:
     TraceEndEvent() {_type = TASK_END;}
 
-    TraceEndEvent(int time, int task, int cpu)
+    TraceEndEvent(Tick time, long int task, long int cpu)
       :TraceCPUEvent(TASK_END, time, task, cpu) {}
 
   };
@@ -213,7 +215,7 @@ namespace RTSim {
   public:
     TraceDlinePostEvent() {_type = TASK_DLINEPOST;}
 
-    TraceDlinePostEvent(int time, int task, int dline, int dline2)
+    TraceDlinePostEvent(Tick time, long int task, Tick dline, Tick dline2)
       :TraceTaskEvent(TASK_DLINEPOST, time, task), _taskD(dline), _taskD2(dline2) {}
 
     virtual ~TraceDlinePostEvent() {}
@@ -246,7 +248,7 @@ namespace RTSim {
   public:
     TraceDlineSetEvent() {_type = TASK_DLINESET;}
 
-    TraceDlineSetEvent(int time, int task, int dline)
+    TraceDlineSetEvent(Tick time, long int task, Tick dline)
       :TraceTaskEvent(TASK_DLINESET, time, task), _taskD(dline) {}
 
     virtual ~TraceDlineSetEvent() {}
@@ -278,7 +280,7 @@ namespace RTSim {
   public:
     TraceWaitEvent() {_type = TASK_WAIT;}
 
-    TraceWaitEvent(int time, int task, string res)
+    TraceWaitEvent(Tick time, long int task, string res)
       :TraceTaskEvent(TASK_WAIT, time, task), _res(res) {}
 
     virtual ~TraceWaitEvent() {}
@@ -307,7 +309,7 @@ namespace RTSim {
   public:
     TraceSignalEvent() {_type = TASK_SIGNAL;}
 
-    TraceSignalEvent(int time, int task, string res)
+    TraceSignalEvent(Tick time, long int task, string res)
       :TraceTaskEvent(TASK_SIGNAL, time, task), _res(res) {}
 
     virtual ~TraceSignalEvent() {}
@@ -333,7 +335,7 @@ namespace RTSim {
   public:
     TraceIdleEvent() {_type = TASK_IDLE;}
 
-    TraceIdleEvent(int time, int task)
+    TraceIdleEvent(Tick time, long int task)
       :TraceTaskEvent(TASK_IDLE, time, task) {}
 
   };
@@ -346,7 +348,7 @@ namespace RTSim {
   public:
     TraceNameEvent() {_type = TASK_NAME;}
 
-    TraceNameEvent(int time, int task, const string &s)
+    TraceNameEvent(Tick time, long int task, const string &s)
       :TraceTaskEvent(TASK_NAME, time, task), _name(s) {}
 
     virtual ~TraceNameEvent() {}
@@ -370,7 +372,7 @@ namespace RTSim {
   public:
     TraceDlineMissEvent() {_type = TASK_DLINEMISS;}
 
-    TraceDlineMissEvent(int time, int task)
+    TraceDlineMissEvent(Tick time, long int task)
       :TraceTaskEvent(TASK_DLINEMISS, time, task) {}
 
   };
