@@ -100,7 +100,7 @@ namespace RTSim {
       // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
       runnable->increaseID();
       for (auto label : runnable->labelsRead_list) {
-         runnable->readLabel(label);
+         runnable->readLabel(label, _father->getLastArrival());
       }
 
       DBGPRINT_2("Time to execute for this instance: ",
@@ -174,7 +174,7 @@ namespace RTSim {
 
     // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
     for (auto label : runnable->labelsWrite_list) {
-       runnable->writeLabel(label, _father->getLastArrival());
+       runnable->writeLabel(label);
     }
 
     _father->onInstrEnd();

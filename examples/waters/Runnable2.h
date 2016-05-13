@@ -16,6 +16,7 @@ using namespace std;
 enum Label_Access {read, write};
 
 class Task2;
+class EventChains2;
 
 class Runnable2
 {
@@ -41,14 +42,15 @@ public:
     Task2 *getTask();
     int getPosInTask();
 
-    void setInChain(bool en);
+    void addChain(EventChains2 *C);
 
-    void readLabel(int l);
-    void writeLabel(int l, const Tick &activationTime);
+    void readLabel(int l, const Tick &activationTime);
+    void writeLabel(int l);
 
     Tick getComputationTime();
 
     void increaseID();
+    long long int getID() const;
 
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
@@ -59,7 +61,7 @@ public:
 private:
     string name;
 
-    bool inChain;
+    vector<EventChains2 *>inChain;
 
     Tick lowerBound;
     Tick upperBound;
@@ -74,16 +76,6 @@ private:
     int task_i;
 
     long long int job_id;
-
-    vector< pair<long long int, Tick> > _status;
-
-    long long int n_first;
-    long long int n_last;
-    Tick t_r0l;
-    Tick t_fCand;
-
-    vector<Tick> _FF;
-    vector<Tick> _LL;
 };
 
 

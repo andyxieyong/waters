@@ -23,7 +23,15 @@ public:
 
     vector<EventChains2_elem *> eventChains_elems;
 
+    void write(const Runnable2 *runnable, const Label2 *label);
+    void read(const Runnable2 *runnable, const Label2 *label, const Tick &activationTime);
+
+    void saveFF(const string & filename);
+    void saveLL(const string & filename);
 
 private:
 
+    vector<Tick> _FF;
+    vector<Tick> _LL;
+    vector< pair<long long int, Tick> > _status;
 };

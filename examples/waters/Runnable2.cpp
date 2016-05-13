@@ -2,14 +2,13 @@
 
 #include "shared.h"
 
+#include <EventChains2.h>
+
 #include <fstream>
 
 Runnable2::Runnable2()
 {
     job_id = 0;
-    inChain = false;
-    n_first = -1;
-    n_last = -1;
 }
 
 Runnable2::~Runnable2()
@@ -89,8 +88,15 @@ Tick Runnable2::getComputationTime()
 }
 
 
-void Runnable2::readLabel(int l)
+void Runnable2::readLabel(int l, const Tick &activationTime)
 {
+    Label2 * readLabel = labelList[l];
+
+    for (EventChains2 *C : inChain) {
+        C->read(this, readLabel, activationTime);
+    }
+
+    /*
     // If the runnable is not in chain, do nothing
     if (!inChain)
         return;
@@ -155,7 +161,7 @@ void Runnable2::readLabel(int l)
             t_fCand = t_f;
         }
     }
-
+*/
     /*
     // Try to reads the timestamp from the label
     MetaSim::Tick receivedTimestamp;
@@ -172,8 +178,15 @@ void Runnable2::readLabel(int l)
     */
 }
 
-void Runnable2::writeLabel(int l, const Tick &activationTime)
+void Runnable2::writeLabel(int l)
 {
+    Label2 * writeLabel = labelList[l];
+
+    for (EventChains2 *C : inChain) {
+        C->write(this, writeLabel);
+    }
+
+    /*
     // If the runnable is not in chain, do nothing
     if (!inChain)
         return;
@@ -214,6 +227,7 @@ void Runnable2::writeLabel(int l, const Tick &activationTime)
 
     printf("\tStatus cleared\n");
     _status.clear();
+    */
 }
 
 void Runnable2::increaseID()
@@ -221,30 +235,13 @@ void Runnable2::increaseID()
     job_id++;
 }
 
-void Runnable2::setInChain(bool en)
+long long int Runnable2::getID() const
 {
-    inChain = en;
+    return job_id;
 }
 
-
-void saveData(const string & filename, const vector<Tick> &v)
+void Runnable2::addChain(EventChains2 *C)
 {
-    ofstream f;
-    f.open(filename);
-
-    for (auto o : v)
-        f << (long long int)(o) << endl;
-
-    f.close();
-}
-
-
-void Runnable2::saveFF(const string & filename)
-{
-    saveData(filename, _FF);
-}
-
-void Runnable2::saveLL(const string & filename)
-{
-    saveData(filename, _LL);
+    if (find(inChain.begin(), inChain.end(), C) == inChain.end())
+        inChain.push_back(C);
 }

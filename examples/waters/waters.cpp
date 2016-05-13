@@ -407,7 +407,7 @@ void parse_XMLmodel(void)
 
 
         int label_wr_id;
-        bool label_firstinchain = true;
+        //bool label_firstinchain = true;
         XMLElement *psegmentElement = peventChainsElement->FirstChildElement("segments");
         while(psegmentElement != nullptr)
         {
@@ -429,20 +429,19 @@ void parse_XMLmodel(void)
             evtc->eventChains_elems.push_back(evtc_elem);
             psegmentElement = psegmentElement->NextSiblingElement("segments");
 
+            evtc_elem->runnable_stimulus->addChain(evtc);
+            evtc_elem->runnable_response->addChain(evtc);
 
-            evtc_elem->runnable_stimulus->setInChain(true);
-            evtc_elem->runnable_response->setInChain(true);
+            //evtc_elem->label_wr->setInChain(true);
 
-            evtc_elem->label_wr->setInChain(true);
-
-            if (label_firstinchain)
-            {
-              evtc_elem->label_wr->setFirstInChain(true);
-              label_firstinchain = false;
-            }
+            //if (label_firstinchain)
+            //{
+              //evtc_elem->label_wr->setFirstInChain(true);
+              //label_firstinchain = false;
+            //}
         }
 
-        labelList[label_wr_id]->setLastInChain(true);
+        //labelList[label_wr_id]->setLastInChain(true);
 
         eventChains.push_back(evtc);
         peventChainsElement = peventChainsElement->NextSiblingElement("eventChains");
@@ -496,9 +495,8 @@ int main()
     SIMUL.run((long long int)20E9); // 20 seconds
 
     for (auto e : eventChains) {
-        Runnable2 * r = e->runnable_response;
-        r->saveFF("Chain_" + e->name + "_FF.txt");
-        r->saveLL("Chain_" + e->name + "_LL.txt");
+        e->saveFF("Chain_" + e->name + "_FF.txt");
+        e->saveLL("Chain_" + e->name + "_LL.txt");
     }
   } catch (BaseExc &e) {
     cout << e.what() << endl;
