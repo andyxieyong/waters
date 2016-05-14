@@ -88,12 +88,21 @@ void EventChains2::write(const Runnable2 *runnable, const Label2 *label)
 
         if (ev->pullLastRunnable(tmpStatus) == 0) {
             if (_status[0].first != tmpStatus[0].first) {
-                if (_status[0].first != -1)
-                    _FF.push_back(currentTime - _status[0].second);
+                if (_status[0].first != -1) {
+                    Tick FF = currentTime - _status[0].second;
+                    _FF.push_back(FF);
+                    if (_status[1].first != -1) {
+                        Tick LL = _status[1].second - _status[0].second;
+                        _LL.push_back(LL);
+                    }
+                }
 
                 _status[0] = tmpStatus[0];
             }
         }
+
+        _status[1].first = 1;
+        _status[1].second = currentTime;
     } else {
         // Otherwise, perform a write in chain
 

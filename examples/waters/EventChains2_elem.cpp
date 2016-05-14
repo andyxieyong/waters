@@ -15,11 +15,17 @@ EventChains2_elem::~EventChains2_elem()
 inline void insertElementsInVector(vector< pair<long long int, Tick> > &dst,
                             const vector< pair<long long int, Tick> > &src)
 {
+    if (dst.size() > 0)
+        return;
+
+    dst.push_back(src.front());
+    /*
     for (auto s : src)
         dst.push_back(s);
 
     if (dst.size() > 2)
         dst.erase(dst.begin() + 1, dst.end() - 1);
+        */
 }
 
 inline int moveElementsFromVectors(vector< pair<long long int, Tick> > &dst,
@@ -30,8 +36,11 @@ inline int moveElementsFromVectors(vector< pair<long long int, Tick> > &dst,
 
     dst.clear();
     dst.push_back(src.front());
+    /*
+    dst.clear();
+    dst.push_back(src.front());
     dst.push_back(src.back());
-
+    */
     src.clear();
 
     return 0;
