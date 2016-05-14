@@ -46,6 +46,8 @@ using namespace std;
 
 
 //////////////////////////////////////////////////////
+long long int instructionCost_ns = 5;
+
 vector<Task2 *> CPU_CORES[CPU_NUM];
 
 vector<Task2 *> taskList;
