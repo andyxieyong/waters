@@ -84,25 +84,20 @@ void EventChains2::write(const Runnable2 *runnable, const Label2 *label)
 
         long long int currentTime = SIMUL.getTime();
 
-        vector< pair<long long int, Tick> > status;
+        vector< pair<long long int, Tick> > tmpStatus;
 
-        if (ev->pullLastRunnable(status) == 0) {
-
-            if (_status[0].first != status[0].first) {
-
+        if (ev->pullLastRunnable(tmpStatus) == 0) {
+            if (_status[0].first != tmpStatus[0].first) {
                 if (_status[0].first != -1)
-                    _FF.push_back(SIMUL.getTime() - _status[0].second);
+                    _FF.push_back(currentTime - _status[0].second);
 
-                _status[0] = status[0];
+                _status[0] = tmpStatus[0];
             }
-
         }
-
     } else {
         // Otherwise, perform a write in chain
 
         for (unsigned int i=0; i<eventChains_elems.size(); ++i) {
-
             // Search for the event where
             // the given runnable writes the given label
             ev = eventChains_elems.at(i);
