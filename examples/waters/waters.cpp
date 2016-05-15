@@ -495,6 +495,7 @@ int main()
   try {
     Builder b(CPU_CORES, CPU_NUM);
     SIMUL.run((long long int)20E9); // 20 seconds
+    //SIMUL.run((long long int)1E9);
 
     for (auto e : eventChains) {
         e->saveFF("Chain_" + e->name + "_FF.txt");
