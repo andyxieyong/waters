@@ -91,23 +91,24 @@ namespace RTSim {
       if (tasks.at(i)->isPeriodic()) {
         Tick period = tasks.at(i)->getPeriod();
         Tick relative_deadline = period;
-        Tick activation_phase = 0;
+        UniformVar activation_phase_periodic(0, period);
 
         t = new Task(new DeltaVar(period),
                      relative_deadline,
-                     activation_phase,
+                     (long long int)activation_phase_periodic.get(),
                      tasks.at(i)->getName(),
                      tasks.at(i)->getMultipleActivationTaskLimit() - 1);
         //t->setPeriodic(period);
       } else {
         // TODO
         Tick relative_deadline = 8000000;
-        Tick activation_phase = 0;
+        UniformVar activation_phase_sporadic(tasks.at(i)->getMinInterArrivalTime(),
+                                             tasks.at(i)->getMaxInterArrivalTime());
 
         t = new Task(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),
                                     tasks.at(i)->getMaxInterArrivalTime()),
                      relative_deadline,
-                     activation_phase,
+                     (long long int)activation_phase_sporadic.get(),
                      tasks.at(i)->getName(),
                      tasks.at(i)->getMultipleActivationTaskLimit() - 1);
         //t->setSporadic(new UniformVar(tasks.at(i)->getMinInterArrivalTime(),tasks.at(i)->getMaxInterArrivalTime()));
