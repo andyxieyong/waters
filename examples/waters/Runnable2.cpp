@@ -115,3 +115,20 @@ void Runnable2::addChain(EventChains2 *C)
     if (find(inChain.begin(), inChain.end(), C) == inChain.end())
         inChain.push_back(C);
 }
+
+void Runnable2::pushRT(const Tick &rt)
+{
+    _responseTimes.push_back(rt);
+}
+
+
+void Runnable2::saveRT()
+{
+    ofstream f;
+    f.open(this->getName() + "_RT.txt");
+
+    for (auto o : _responseTimes)
+        f << (long long int)(o) << endl;
+
+    f.close();
+}

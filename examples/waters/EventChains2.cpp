@@ -77,7 +77,7 @@ void EventChains2::write(const Runnable2 *runnable, const Label2 *label)
 {
     EventChains2_elem * ev;
 
-    // If the runnable is the last one, then try to compute the FF delay
+    // If the runnable is the last one, then try to compute the FF and LL delays
     if (runnable == runnable_response) {
 
         ev = eventChains_elems.back();
@@ -101,7 +101,7 @@ void EventChains2::write(const Runnable2 *runnable, const Label2 *label)
             }
         }
 
-        _status[1].first = 1;
+        _status[1].first = 0;
         _status[1].second = currentTime;
     } else {
         // Otherwise, perform a write in chain

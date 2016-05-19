@@ -494,12 +494,17 @@ int main()
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run((long long int)20E9); // 20 seconds
-    //SIMUL.run((long long int)1E9);
+    SIMUL.run((long long int)2E9); // 20 seconds
+    //SIMUL.run((long long int)100E9);
 
     for (auto e : eventChains) {
-        e->saveFF("Chain_" + e->name + "_FF.txt");
-        e->saveLL("Chain_" + e->name + "_LL.txt");
+        e->saveFF(e->name + "_FF.txt");
+        e->saveLL(e->name + "_LL.txt");
+
+        for (auto ee : e->eventChains_elems) {
+            ee->runnable_stimulus->saveRT();
+        }
+        e->runnable_response->saveRT();
     }
   } catch (BaseExc &e) {
     cout << e.what() << endl;

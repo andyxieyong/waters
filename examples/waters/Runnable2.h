@@ -55,8 +55,9 @@ public:
     vector<int> labelsRead_list;
     vector<int> labelsWrite_list;
 
-    void saveFF(const string & filename);
-    void saveLL(const string & filename);
+    void pushRT(const Tick &rt);
+
+    void saveRT();
 
 private:
     string name;
@@ -66,11 +67,13 @@ private:
     Tick lowerBound;
     Tick upperBound;
 
-    std::unique_ptr<MetaSim::WeibullVar> wv;
+    std::unique_ptr<WeibullVar> wv;
 
     //distribution params
     string pRemainPromille;
     Tick mean;
+
+    std::vector<Tick> _responseTimes;
 
     Task2 *task;
     int task_i;

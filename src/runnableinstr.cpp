@@ -169,8 +169,9 @@ namespace RTSim {
 
     DBGPRINT("internal data set... now calling the _father->onInstrEnd()");
 
-
     Runnable2 *runnable = runnableName_runnableP[this->getName()];
+
+    runnable->pushRT(SIMUL.getTime() - _father->getArrival());
 
     // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
     for (auto label : runnable->labelsWrite_list) {
