@@ -488,11 +488,15 @@ int main()
 
   fflush(stdout);
 
-  for (auto o : runnableList) {
+  for (Runnable2 *o : runnableList) {
     o->setWeibull();
   }
 
-  for (Task2 * t : taskList) {
+  for (Label2 *l : labelList) {
+      l->setMemoryResource("GLOBAL");
+  }
+
+  for (Task2 *t : taskList) {
       t->setScalingFactor(1);
 
       /*

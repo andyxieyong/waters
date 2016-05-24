@@ -49,6 +49,10 @@ namespace RTSim {
   
         virtual ~ResManager();
 
+        bool hasResource(const string& r) {
+            return NULL != Entity::_find(r);
+        }
+
         /**
            Adds the resource to the set of resources managed by the Resource
            Manager.  should check if the resource is already present in such

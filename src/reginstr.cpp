@@ -19,6 +19,7 @@
 #include <waitinstr.hpp>
 #include <suspend_instr.hpp>
 #include <runnableinstr.hpp>
+#include <memory_instr.hpp>
 
 namespace RTSim {
 
@@ -37,6 +38,9 @@ namespace RTSim {
     const Instr::BASE_KEY_TYPE SuspendName("suspend");
 
     const Instr::BASE_KEY_TYPE RunnableName("runnable");
+
+    const Instr::BASE_KEY_TYPE ReadName("read");
+    const Instr::BASE_KEY_TYPE WriteName("write");
 
     /** 
         This namespace should never be used by the user. Contains
@@ -74,6 +78,12 @@ namespace RTSim {
 
         static registerInFactory<Instr, RunnableInstr, Instr::BASE_KEY_TYPE>
         registerRunnable(RunnableName);
+
+        static registerInFactory<Instr, ReadInstr, Instr::BASE_KEY_TYPE>
+        registerRead(ReadName);
+
+        static registerInFactory<Instr, WriteInstr, Instr::BASE_KEY_TYPE>
+        registerWrite(WriteName);
     }
 
     void __reginstr_init() {}

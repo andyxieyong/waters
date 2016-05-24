@@ -84,6 +84,7 @@ namespace RTSim {
     
         /// The resource manager
         ResManager* _resMng;
+        ResManager* _resMng2;
     
         /// The currently executing task
         AbsRTTask * _currExe;
@@ -204,6 +205,7 @@ namespace RTSim {
            signal opration.
         */
         void setResManager(ResManager* rm);
+        void addResManager(ResManager* rm);
     
         /**
            Forwards the request of resource r from task t to

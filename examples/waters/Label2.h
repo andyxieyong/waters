@@ -35,7 +35,19 @@ public:
     vector<Runnable2 *> runnablesRead_list;
     vector<Runnable2 *> runnablesWrite_list;
 
+    void setMemoryResource(const string &mrs) {
+        memory_res = mrs;
+    }
+
+    const string &getMemoryResource() {
+        return memory_res;
+    }
+
 private:
+    string memory_res; // GLOBAL
+                            // LOCAL_0
+                            // ...
+                            // LOCAL_N
 
     void init();
 

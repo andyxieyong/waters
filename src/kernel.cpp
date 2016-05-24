@@ -28,8 +28,9 @@ namespace RTSim {
 
     RTKernel::RTKernel(Scheduler *s, const std::string& name, CPU* c) 
         : Entity(name),
-	  _sched(s),
-	  _resMng(0),
+      _sched(s),
+      _resMng(0),
+      _resMng2(0),
 	  _cpu(),
 	  internalCpu(true),
 	  beginDispatchEvt(this),
@@ -213,9 +214,14 @@ namespace RTSim {
     } 
 
     void RTKernel::setResManager(ResManager* rm)
-    { 
-        _resMng = rm; 
+    {
+        _resMng = rm;
         _resMng->setKernel(this, _sched);
+    }
+
+    void RTKernel::addResManager(ResManager* rm)
+    {
+        _resMng2 = rm;
     }
 
     bool RTKernel::requestResource(AbsRTTask *t, const string &r, int n) 
@@ -224,8 +230,18 @@ namespace RTSim {
         DBGENTER(_KERNEL_DBG_LEV);
 
         if (_resMng == 0) throw RTKernelExc("Resource Manager not set!");
-        bool ret = _resMng->request(t,r,n);
-        if (!ret) 
+
+        ResManager *rm = nullptr;
+
+        if (_resMng->hasResource(r))
+            rm = _resMng;
+        else if (_resMng2->hasResource(r))
+            rm = _resMng2;
+        if (rm == nullptr)
+            throw RTKernelExc("No resource manager has the \"" + r + "\" resource!");
+
+        bool ret = rm->request(t,r,n);
+        if (!ret)
             dispatch();
         return ret;
     } 
@@ -235,7 +251,16 @@ namespace RTSim {
     { 
         if (_resMng == 0) throw RTKernelExc("Resource Manager not set!");
 
-        _resMng->release(t,r,n);
+        ResManager *rm = nullptr;
+
+        if (_resMng->hasResource(r))
+            rm = _resMng;
+        else if (_resMng2->hasResource(r))
+            rm = _resMng2;
+        if (rm == nullptr)
+            throw RTKernelExc("No resource manager has the \"" + r + "\" resource!");
+
+        rm->release(t,r,n);
 
         dispatch();
     }
