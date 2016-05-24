@@ -492,10 +492,36 @@ int main()
     o->setWeibull();
   }
 
+  for (Task2 * t : taskList) {
+      t->setScalingFactor(1);
+
+      /*
+ISR_9 -> 0.58
+Angle_Sync -> 0.37
+Task_100ms -> 0.28
+Task_200ms -> 0.49
+Task_1000ms -> 0.18
+Task_10ms -> 0.84
+       */
+
+      if (t->getName() == "ISR_9")
+          t->setScalingFactor(0.58);
+      else if (t->getName() == "Angle_Sync")
+          t->setScalingFactor(0.37);
+      else if (t->getName() == "Task_100ms")
+          t->setScalingFactor(0.28);
+      else if (t->getName() == "Task_200ms")
+          t->setScalingFactor(0.49);
+      else if (t->getName() == "Task_1000ms")
+          t->setScalingFactor(0.18);
+      else if (t->getName() == "Task_10ms")
+          t->setScalingFactor(0.84);
+  }
+
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    SIMUL.run((long long int)2E9); // 20 seconds
-    //SIMUL.run((long long int)100E9);
+    //SIMUL.run((long long int)2E9); // 20 seconds
+    SIMUL.run((long long int)3600E9);
 
     for (auto e : eventChains) {
         e->saveFF(e->name + "_FF.txt");

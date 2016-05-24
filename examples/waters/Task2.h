@@ -53,7 +53,19 @@ public:
 
     vector<Runnable2 *> runnables_list;
 
+    void setScalingFactor(double s) {
+        scalingFactor = s;
+    }
+
+    double getScalingFactor() const {
+        return scalingFactor;
+    }
+
+
+
 private:
+
+    double scalingFactor;
 
     string name;
     Tick priority;

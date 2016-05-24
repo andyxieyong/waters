@@ -95,7 +95,9 @@ namespace RTSim {
 
       Runnable2 *runnable = runnableName_runnableP[this->getName()];
 
-      currentCost = Tick((long long int)runnable->getComputationTime() * instructionCost_ns);// runnable->wv.get();
+      long long int runnableExecTime = (long long int)(runnable->getComputationTime()) * instructionCost_ns;
+
+      currentCost = Tick(runnableExecTime);
 
       // TODO questo ciclo for per l'implementazione della memoria andra` schedulato
       runnable->increaseID();

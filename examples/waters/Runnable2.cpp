@@ -84,7 +84,20 @@ void Runnable2::setWeibull()
 
 Tick Runnable2::getComputationTime()
 {
-    return Tick(wv->get(lowerBound));
+    long long int lb = wv->get(lowerBound);
+    double sf = getTask()->getScalingFactor();
+    long long int result = lb * sf;
+
+    /*
+    if (getTask()->getName() == "ISR_9" ||
+            getTask()->getName() == "Angle_Sync" ||
+            getTask()->getName() == "Task_100ms" ||
+            getTask()->getName() == "Task_200ms" ||
+            getTask()->getName() == "Task_1000ms" ||
+            getTask()->getName() == "Task_10ms")
+        asm("NOP");
+*/
+    return Tick(result);
 }
 
 
