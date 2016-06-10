@@ -94,7 +94,7 @@ int countSiblingElements(XMLElement *pElement, char *elem_name, char *attr, char
 void parse_XMLmodel(void)
 {
   XMLDocument xmlDoc;
-  XMLError eResult = xmlDoc.LoadFile("ChallengeModelModified.amxmi");
+  XMLError eResult = xmlDoc.LoadFile("../../../examples/waters/ChallengeModelModified.amxmi");
 
   XMLCheckResult(eResult);
 

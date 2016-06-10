@@ -1,6 +1,6 @@
 clear all
 
-histResolution = 100;
+histResolution = 70;
 xLabelText = "Time (us)";
 yLabelText = "Count";
 unit = 1000;
