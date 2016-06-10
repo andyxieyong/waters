@@ -524,8 +524,8 @@ Task_10ms -> 0.84
 
   try {
     Builder b(CPU_CORES, CPU_NUM);
-    //SIMUL.run((long long int)2E9); // 20 seconds
-    SIMUL.run((long long int)3600E9);
+    SIMUL.run((long long int)1E9); // 20 seconds
+    //SIMUL.run((long long int)3600E9);
 
     for (auto e : eventChains) {
         e->saveFF(e->name + "_FF.txt");

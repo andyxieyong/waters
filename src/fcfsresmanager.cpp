@@ -80,11 +80,12 @@ namespace RTSim {
             DBGPRINT("Relocking resource");
 
             AbsRTTask *extracted_task = _blocked[r].front();
+            AbsKernel *ker = extracted_task->getKernel();
 
             r->lock(extracted_task);
             //r->setOwner(_blocked[r].front());
             _resAndCurrUsers[r] = extracted_task;
-            extracted_task->getKernel()->activate(extracted_task);
+            ker->activate(extracted_task);
             _blocked[r].pop_front();
         }
     }

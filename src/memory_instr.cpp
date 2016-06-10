@@ -32,4 +32,22 @@ namespace RTSim {
     using namespace parse_util;
 
 
+WriteInstr::WriteInstr(Task *t, Tick duration, char *n)  : FixedInstr(t, 9*5, n)
+{}
+
+Instr *WriteInstr::createInstance(vector<string> &par)
+{
+    Task *task = dynamic_cast<Task *>(Entity::_find(par[1]));
+    return new WriteInstr(task, atoi(par[0].c_str()));
+}
+
+ReadInstr::ReadInstr(Task *t, Tick duration, char *n)  : FixedInstr(t, 9*5, n)
+{}
+
+Instr *ReadInstr::createInstance(vector<string> &par)
+{
+    Task *task = dynamic_cast<Task *>(Entity::_find(par[1]));
+    return new ReadInstr(task, atoi(par[0].c_str()));
+}
+
 }

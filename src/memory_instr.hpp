@@ -45,7 +45,7 @@ namespace RTSim {
   using namespace std;
   using namespace MetaSim;
 
-  /** 
+  /**
       \ingroup instr
 
       These instructions (ExecInstr & FixedInstr) are used to model a
@@ -53,15 +53,19 @@ namespace RTSim {
       building block of a real task
 
       @author Luigi Palopoli, Giuseppe Lipari, Gerardo Lamastra, Antonio Casile
-      @version 2.0 
+      @version 2.0
       @see Instr */
 
 class ReadInstr : public FixedInstr {
-
+public:
+    ReadInstr(Task *t, Tick duration, char *n = "");
+    static Instr *createInstance(vector<string> &par);
 };
 class WriteInstr : public FixedInstr {
-
+public:
+    WriteInstr(Task *t, Tick duration, char *n = "") ;
+    static Instr *createInstance(vector<string> &par);
 };
-} // namespace RTSim 
+} // namespace RTSim
 
 #endif
